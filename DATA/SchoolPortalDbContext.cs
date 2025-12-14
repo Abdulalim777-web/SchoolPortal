@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolPortal.Models;
 
-namespace SchoolPortal.DATA
+namespace SchoolPortal.Data
 {
     public class SchoolPortalDbContext : DbContext
     {
