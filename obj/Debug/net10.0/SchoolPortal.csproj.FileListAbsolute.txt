@@ -150,6 +150,7 @@ D:\PROJECT\SchoolPortal\obj\Debug\net10.0\SchoolPortal.csproj.CoreCompileInputs.
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\SchoolPortal.MvcApplicationPartsAssemblyInfo.cache
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\SchoolPortal.RazorAssemblyInfo.cache
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\SchoolPortal.RazorAssemblyInfo.cs
+D:\PROJECT\SchoolPortal\obj\Debug\net10.0\SchoolPortal.sourcelink.json
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\rjimswa.dswa.cache.json
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 D:\PROJECT\SchoolPortal\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json

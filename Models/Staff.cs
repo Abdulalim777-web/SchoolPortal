@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace SchoolPortal.Models
 {
     public class Staff
@@ -5,5 +7,7 @@ namespace SchoolPortal.Models
         public int Id { get; set; }
         public string? FullName { get; set; }
         public string? Role { get; set; }
+
+        public ICollection<Salary>? Salaries { get; set; }
     }
 }
