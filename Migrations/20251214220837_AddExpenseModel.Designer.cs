@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolPortal.Data;
 
@@ -11,9 +12,11 @@ using SchoolPortal.Data;
 namespace SchoolPortal.Migrations
 {
     [DbContext(typeof(SchoolPortalDbContext))]
-    partial class SchoolPortalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251214220837_AddExpenseModel")]
+    partial class AddExpenseModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,9 +95,6 @@ namespace SchoolPortal.Migrations
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("Month")
                         .HasColumnType("datetime2");
 
@@ -116,25 +116,11 @@ namespace SchoolPortal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("DateJoined")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PhoneNumber")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Position")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -199,12 +185,17 @@ namespace SchoolPortal.Migrations
             modelBuilder.Entity("SchoolPortal.Models.Salary", b =>
                 {
                     b.HasOne("SchoolPortal.Models.Staff", "Staff")
-                        .WithMany()
+                        .WithMany("Salaries")
                         .HasForeignKey("StaffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Staff");
+                });
+
+            modelBuilder.Entity("SchoolPortal.Models.Staff", b =>
+                {
+                    b.Navigation("Salaries");
                 });
 
             modelBuilder.Entity("SchoolPortal.Models.Student", b =>
