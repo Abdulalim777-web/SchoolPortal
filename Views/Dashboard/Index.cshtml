@@ -1,99 +1,37 @@
-@using System.Globalization
+<h2>Financial Overview</h2>
 
-
-@{
-    ViewData["Title"] = "Dashboard";
-}
-
-<h1>School Financial Dashboard</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <div class="card p-3">
-            <h4>Total Income</h4>
-            <p>@ViewBag.TotalIncome.ToString("C")</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card p-3">
-            <h4>Total Expenses</h4>
-            <p>@ViewBag.TotalExpenses.ToString("C")</p>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card p-3">
-            <h4>Balance</h4>
-            <p>@ViewBag.Balance.ToString("C")</p>
-        </div>
-    </div>
-</div>
-
-<!-- Optional chart -->
 <div>
-    <canvas id="incomeExpensesChart" width="400" height="200"></canvas>
+    <p><strong>Total Income:</strong> ₦@ViewBag.TotalIncome</p>
+    <p><strong>Total Expenses:</strong> ₦@ViewBag.TotalExpenses</p>
+    <p><strong>Balance:</strong> ₦@ViewBag.Balance</p>
 </div>
 
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        const ctx = document.getElementById('incomeExpensesChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Income', 'Expenses'],
-                datasets: [{
-                    label: 'Amount',
-                    data: [@ViewBag.TotalIncome, @ViewBag.TotalExpenses],
-                    backgroundColor: ['#28a745', '#dc3545']
-                }]
-            },
-            options: {
-                responsive: true
-            }
-        });
-    </script>
+<h3>Monthly Income</h3>
+<table class="table">
+    <tr>
+        <th>Month</th>
+        <th>Total</th>
+    </tr>
+@foreach (var item in ViewBag.MonthlyIncome)
+{
+    <tr>
+        <td>@item.Month/@item.Year</td>
+        <td>₦@item.Total</td>
+    </tr>
 }
-
-
-
-<h4>Monthly Income</h4>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Month</th>
-            <th>Year</th>
-            <th>Total Income</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.MonthlyIncome)
-        {
-            <tr>
-                <td>@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Month)</td>
-                <td>@item.Year</td>
-                <td>@item.TotalIncome.ToString("N2")</td>
-            </tr>
-        }
-    </tbody>
 </table>
 
-<h4>Monthly Expenses</h4>
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>Month</th>
-            <th>Year</th>
-            <th>Total Expenses</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in ViewBag.MonthlyExpenses)
-        {
-            <tr>
-                <td>@CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Month)</td>
-                <td>@item.Year</td>
-                <td>@item.TotalExpense.ToString("N2")</td>
-            </tr>
-        }
-    </tbody>
+<h3>Monthly Expenses</h3>
+<table class="table">
+    <tr>
+        <th>Month</th>
+        <th>Total</th>
+    </tr>
+@foreach (var item in ViewBag.MonthlyExpenses)
+{
+    <tr>
+        <td>@item.Month/@item.Year</td>
+        <td>₦@item.Total</td>
+    </tr>
+}
 </table>
