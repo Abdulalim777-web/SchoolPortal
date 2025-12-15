@@ -29,27 +29,27 @@ namespace SchoolPortal.Controllers
 
             // Monthly Income
             var monthlyIncome = await _context.Payments
-                .GroupBy(p => new { p.DatePaid.Year, p.DatePaid.Month })
-                .Select(g => new
-                {
-                    Year = g.Key.Year,
-                    Month = g.Key.Month,
-                    TotalIncome = g.Sum(p => p.Amount)
-                })
-                .OrderBy(x => x.Year).ThenBy(x => x.Month)
-                .ToListAsync();
-
+            .GroupBy(p => new { p.DatePaid.Year, p.DatePaid.Month })
+            .Select(g => new
+            {
+                Year = g.Key.Year,
+                Month = g.Key.Month,
+                Total = g.Sum(p => p.Amount)
+            })
+            .OrderBy(x => x.Year).ThenBy(x => x.Month)
+            .ToListAsync();
             // Monthly Expenses
             var monthlyExpenses = await _context.Expenses
-                .GroupBy(e => new { e.Date.Year, e.Date.Month })
-                .Select(g => new
-                {
-                    Year = g.Key.Year,
-                    Month = g.Key.Month,
-                    TotalExpense = g.Sum(e => e.Amount)
-                })
-                .OrderBy(x => x.Year).ThenBy(x => x.Month)
-                .ToListAsync();
+            .GroupBy(e => new { e.Date.Year, e.Date.Month })
+            .Select(g => new
+            {
+                Year = g.Key.Year,
+                Month = g.Key.Month,
+                Total = g.Sum(e => e.Amount)
+            })
+            .OrderBy(x => x.Year).ThenBy(x => x.Month)
+            .ToListAsync();
+
 
             ViewBag.TotalIncome = totalIncome;
             ViewBag.TotalExpenses = totalExpenses;
