@@ -8,30 +8,38 @@
 
 <h3>Monthly Income</h3>
 <table class="table">
-    <tr>
-        <th>Month</th>
-        <th>Total</th>
-    </tr>
-@foreach (var item in ViewBag.MonthlyIncome)
-{
-    <tr>
-        <td>@item.Month/@item.Year</td>
-        <td>₦@item.Total</td>
-    </tr>
-}
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Total Income</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in ViewBag.MonthlyIncome)
+    {
+        <tr>
+            <td>@($"{item.Month}/{item.Year}")</td>
+            <td>₦@item.Total</td>
+        </tr>
+    }
+    </tbody>
 </table>
 
-<h3>Monthly Expenses</h3>
+
 <table class="table">
-    <tr>
-        <th>Month</th>
-        <th>Total</th>
-    </tr>
-@foreach (var item in ViewBag.MonthlyExpenses)
-{
-    <tr>
-        <td>@item.Month/@item.Year</td>
-        <td>₦@item.Total</td>
-    </tr>
-}
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Total Expense</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in ViewBag.MonthlyExpenses)
+    {
+        <tr>
+            <td>@($"{item.Month}/{item.Year}")</td>
+            <td>₦@item.Total</td>
+        </tr>
+    }
+    </tbody>
 </table>
