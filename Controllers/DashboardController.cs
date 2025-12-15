@@ -23,42 +23,50 @@ namespace SchoolPortal.Controllers
         // GET: Dashboard
         public async Task<IActionResult> Index()
         {
-            var totalIncome = await _context.Payments.SumAsync(p => p.Amount);
-            var totalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
-            var balance = totalIncome - totalExpenses;
+            var model = new DashboardViewModel();
 
-            // Monthly Income
-            var monthlyIncome = await _context.Payments
-            .GroupBy(p => new { p.DatePaid.Year, p.DatePaid.Month })
-            .Select(g => new
-            {
-                Year = g.Key.Year,
-                Month = g.Key.Month,
-                Total = g.Sum(p => p.Amount)
-            })
-            .OrderBy(x => x.Year).ThenBy(x => x.Month)
-            .ToListAsync();
-            // Monthly Expenses
-            var monthlyExpenses = await _context.Expenses
-            .GroupBy(e => new { e.Date.Year, e.Date.Month })
-            .Select(g => new
-            {
-                Year = g.Key.Year,
-                Month = g.Key.Month,
-                Total = g.Sum(e => e.Amount)
-            })
-            .OrderBy(x => x.Year).ThenBy(x => x.Month)
-            .ToListAsync();
+            model.TotalIncome = await _context.Payments.SumAsync(p => p.Amount);
+            model.TotalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
+            model.Balance = model.TotalIncome - model.TotalExpenses;
 
+            int currentYear = DateTime.Now.Year;
 
-            ViewBag.TotalIncome = totalIncome;
-            ViewBag.TotalExpenses = totalExpenses;
-            ViewBag.Balance = balance;
-            ViewBag.MonthlyIncome = monthlyIncome;
-            ViewBag.MonthlyExpenses = monthlyExpenses;
+            // Initialize months 1–12
+            var allMonths = Enumerable.Range(1, 12).ToList();
 
-            return View();
-        }
+            var monthlyIncomeRaw = await _context.Payments
+                .Where(p => p.DatePaid.Year == currentYear)
+                .GroupBy(p => p.DatePaid.Month)
+                .Select(g => new MonthlyIncomeDto
+                {
+                    Year = currentYear,
+                    Month = g.Key,
+                    TotalIncome = g.Sum(p => p.Amount)
+                })
+                .ToListAsync();
+
+            var monthlyExpenseRaw = await _context.Expenses
+                .Where(e => e.Date.Year == currentYear)
+                .GroupBy(e => e.Date.Month)
+                .Select(g => new MonthlyExpenseDto
+                {
+                    Year = currentYear,
+                    Month = g.Key,
+                    TotalExpense = g.Sum(e => e.Amount)
+                })
+                .ToListAsync();
+
+            // Fill missing months with 0
+            model.MonthlyIncome = allMonths
+                .Select(m => monthlyIncomeRaw.FirstOrDefault(x => x.Month == m) ?? new MonthlyIncomeDto { Year = currentYear, Month = m, TotalIncome = 0 })
+                .ToList();
+
+            model.MonthlyExpenses = allMonths
+                .Select(m => monthlyExpenseRaw.FirstOrDefault(x => x.Month == m) ?? new MonthlyExpenseDto { Year = currentYear, Month = m, TotalExpense = 0 })
+            .ToList();
+
+            return View(model);
+    }
 
 
 

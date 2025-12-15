@@ -1,13 +1,26 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+
+    // Build labels in C# before sending to JS
+    var monthNames = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+    var chartLabels = Model.MonthlyIncome?.Select(x => monthNames[x.Month - 1] + " " + x.Year).ToList() ?? new List<string>();
+    var incomeData = Model.MonthlyIncome?.Select(x => x.TotalIncome).ToList() ?? new List<decimal>();
+    var expenseData = Model.MonthlyExpenses?.Select(x => x.TotalExpense).ToList() ?? new List<decimal>();
+}
+
+}
+
 <h2>Financial Overview</h2>
 
 <div>
-    <p><strong>Total Income:</strong> ₦@ViewBag.TotalIncome</p>
-    <p><strong>Total Expenses:</strong> ₦@ViewBag.TotalExpenses</p>
-    <p><strong>Balance:</strong> ₦@ViewBag.Balance</p>
+    <p><strong>Total Income:</strong> ₦@Model.TotalIncome</p>
+    <p><strong>Total Expenses:</strong> ₦@Model.TotalExpenses</p>
+    <p><strong>Balance:</strong> ₦@Model.Balance</p>
 </div>
 
 <h3>Monthly Income</h3>
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Month</th>
@@ -15,18 +28,18 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in ViewBag.MonthlyIncome)
-    {
-        <tr>
-            <td>@($"{item.Month}/{item.Year}")</td>
-            <td>₦@item.Total</td>
-        </tr>
-    }
+        @foreach (var item in Model.MonthlyIncome ?? new List<MonthlyIncomeDto>())
+        {
+            <tr>
+                <td>@($"{item.Month}/{item.Year}")</td>
+                <td>₦@item.TotalIncome</td>
+            </tr>
+        }
     </tbody>
 </table>
 
-
-<table class="table">
+<h3>Monthly Expenses</h3>
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Month</th>
@@ -34,12 +47,60 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in ViewBag.MonthlyExpenses)
-    {
-        <tr>
-            <td>@($"{item.Month}/{item.Year}")</td>
-            <td>₦@item.Total</td>
-        </tr>
-    }
+        @foreach (var item in Model.MonthlyExpenses ?? new List<MonthlyExpenseDto>())
+        {
+            <tr>
+                <td>@($"{item.Month}/{item.Year}")</td>
+                <td>₦@item.TotalExpense</td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<h3>Income vs Expenses Chart</h3>
+
+
+<!-- Load Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<canvas id="financeChart" width="800" height="400"></canvas>
+
+<script>
+const labels = @Html.Raw(Json.Serialize(chartLabels));
+const incomeData = @Html.Raw(Json.Serialize(incomeData));
+const expenseData = @Html.Raw(Json.Serialize(expenseData));
+
+new Chart(document.getElementById('financeChart'), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [
+            { 
+                label: 'Income', 
+                data: incomeData,
+                borderColor: 'green',
+                backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                fill: true
+            },
+            { 
+                label: 'Expenses', 
+                data: expenseData,
+                borderColor: 'red',
+                backgroundColor: 'rgba(255, 0, 0, 0.2)',
+                fill: true
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+            tooltip: { mode: 'index', intersect: false }
+        },
+        interaction: { mode: 'nearest', axis: 'x', intersect: false },
+        scales: { y: { beginAtZero: true } }
+    }
+});
+</script>
+
+
