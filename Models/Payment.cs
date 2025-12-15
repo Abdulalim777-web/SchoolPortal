@@ -18,7 +18,7 @@ namespace SchoolPortal.Models
         public decimal Amount { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime DatePaid { get; set; }
 
         [StringLength(100)]
         public string? Purpose { get; set; }
