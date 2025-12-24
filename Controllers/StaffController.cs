@@ -10,6 +10,7 @@ using SchoolPortal.Models;
 
 namespace SchoolPortal.Controllers
 {
+    
     public class StaffController : Controller
     {
         private readonly SchoolPortalDbContext _context;

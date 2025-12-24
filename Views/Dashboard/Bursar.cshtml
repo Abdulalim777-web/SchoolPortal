@@ -1,0 +1,12 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<partial name="_DashboardStats" />
+
+<a class="btn btn-primary rounded-pill" href="/Students">Manage Students</a>
+<a class="btn btn-secondary rounded-pill" href="/Staff">Manage Staff</a>
+<a class="btn btn-danger rounded-pill" href="/Expenses">View Expenses</a>

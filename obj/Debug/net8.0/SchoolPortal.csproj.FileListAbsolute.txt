@@ -10,6 +10,10 @@ D:\PROJECT\SchoolPortal\bin\Debug\net8.0\SchoolPortal.pdb
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Azure.Core.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Azure.Identity.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Humanizer.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.UI.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Razor.Language.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Bcl.AsyncInterfaces.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Build.dll
@@ -33,6 +37,10 @@ D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Design.dl
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.Relational.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.EntityFrameworkCore.SqlServer.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Extensions.DependencyModel.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Embedded.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Extensions.Identity.Core.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Extensions.Identity.Stores.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Identity.Client.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
@@ -232,6 +240,7 @@ D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.GeneratedMSBuildEditorConf
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.AssemblyInfoInputs.cache
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.AssemblyInfo.cs
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.csproj.CoreCompileInputs.cache
+D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.MvcApplicationPartsAssemblyInfo.cs
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.MvcApplicationPartsAssemblyInfo.cache
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.RazorAssemblyInfo.cache
 D:\PROJECT\SchoolPortal\obj\Debug\net8.0\SchoolPortal.RazorAssemblyInfo.cs

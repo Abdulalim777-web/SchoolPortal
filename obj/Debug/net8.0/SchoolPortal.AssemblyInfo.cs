@@ -10,10 +10,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("SchoolPortal")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+426f09a0b0cba85492c9bdf2a25cf6e3dd6222d9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea4d9b6f55c5afddf080e2a1df4ebcb0e15bf297")]
 [assembly: System.Reflection.AssemblyProductAttribute("SchoolPortal")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SchoolPortal")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

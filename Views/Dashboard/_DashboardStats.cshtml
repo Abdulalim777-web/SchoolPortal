@@ -1,0 +1,30 @@
+@model DashboardViewModel
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card shadow rounded-4">
+            <div class="card-body text-center">
+                <h6>Total Income</h6>
+                <h3 class="text-success">₦@Model.TotalIncome</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow rounded-4">
+            <div class="card-body text-center">
+                <h6>Total Expenses</h6>
+                <h3 class="text-danger">₦@Model.TotalExpenses</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow rounded-4">
+            <div class="card-body text-center">
+                <h6>Balance</h6>
+                <h3 class="text-primary">₦@Model.Balance</h3>
+            </div>
+        </div>
+    </div>
+</div>

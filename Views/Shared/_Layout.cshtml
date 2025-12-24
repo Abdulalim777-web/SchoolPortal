@@ -4,58 +4,136 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolPortal</title>
-    <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/SchoolPortal.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SchoolPortal</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                <!-- LEFT SIDE NAV -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index"
+                           class="nav-link btn btn-outline-secondary rounded-pill me-2">
+                            SchoolPortal
+                        </a>
+                    </li>
+                    @if (User.Identity!.IsAuthenticated)
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Dashboard" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Dashboard
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Students" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Students
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Expenses" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Expenses
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Staff" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Staff
+                                </a>
+                            </li><li class="nav-item">
+                                <a asp-controller="Payments" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Payments
+                                </a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Students" asp-action="Index">Students</a>
-                        </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Payments" asp-action="Index">Payments</a>
-                        </li>
+                        }
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Expenses" asp-action="Index">Expenses</a>
-                        </li>
+                        @if (User.IsInRole("Bursar"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Payments" asp-action="Index"
+                                   class="nav-link btn btn-outline-success rounded-pill me-2">
+                                    Payments
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Salaries" asp-action="Index"
+                                   class="nav-link btn btn-outline-success rounded-pill me-2">
+                                    Salaries
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-controller="Expenses" asp-action="Index"
+                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
+                                    Expenses
+                                </a>
+                            </li>
+                        }
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Staff" asp-action="Index">Staff</a>
-                        </li>
+                        @if (User.IsInRole("Student"))
+                        {
+                            <li class="nav-item">
+                                <a asp-controller="Payments" asp-action="Index"
+                                   class="nav-link btn btn-outline-info rounded-pill me-2">
+                                    My Payments
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
 
+                <!-- RIGHT SIDE AUTH -->
+                <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
+                    @if (User.Identity!.IsAuthenticated)
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Salaries" asp-action="Index">Salaries</a>
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                <button type="submit" class="btn btn-danger rounded-pill px-4">
+                                    Logout
+                                </button>
+                            </form>
                         </li>
-
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-                        </li>   
-
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a asp-controller="Account" asp-action="Login"
+                               class="btn btn-outline-dark rounded-pill px-4">
+                                Login
+                            </a>
                         </li>
-                    </ul>
-                </div>
+                    }
+                </ul>
             </div>
         </nav>
+
+        <!-- SUCCESS / ERROR MESSAGES -->
+        <div class="container mt-2">
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["SuccessMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["ErrorMessage"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+        </div>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -67,11 +145,9 @@
             &copy; 2025 - SchoolPortal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 </body>
 </html>

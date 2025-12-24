@@ -1,0 +1,111 @@
+﻿@model SchoolPortal.Models.LoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<style>
+    body {
+        background: #eef4ff;
+    }
+    .login-card {
+        max-width: 420px;
+        margin: 70px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .login-card h5 {
+        font-weight: 600;
+    }
+</style>
+
+<div class="login-card">
+    <h5 class="text-center mb-4">Have an account?</h5>
+
+    <div class="container mt-3">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+</div>
+
+
+    <form asp-action="Login" method="post">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3">
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="input-group">
+            <input asp-for="Password"
+                type="password"
+                class="form-control"
+                id="loginPassword"
+                placeholder="Password" />
+            <span class="input-group-text" style="cursor:pointer"
+                onclick="toggleLoginPassword()">
+                👁
+            </span>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    
+    
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="form-check">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label">
+                    Remember me
+                </label>
+            </div>
+            <a href="#" class="small">Forgot password?</a>
+        </div>
+
+        <button type="submit"
+                class="btn btn-primary w-100"
+                id="loginBtn">
+            <span id="loginText">Sign in</span>
+            <span id="loginSpinner"
+                  class="spinner-border spinner-border-sm d-none"
+                  role="status"
+                  aria-hidden="true"></span>
+        </button>
+
+    </form>
+
+    <div class="text-center mt-3">
+        Don’t have an account?
+        <a asp-action="Register">Create account</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    const form = document.querySelector("form");
+    const btn = document.getElementById("loginBtn");
+    const text = document.getElementById("loginText");
+    const spinner = document.getElementById("loginSpinner");
+
+    form.addEventListener("submit", function () {
+        btn.disabled = true;
+        text.textContent = "Signing in...";
+        spinner.classList.remove("d-none");
+    });
+</script>

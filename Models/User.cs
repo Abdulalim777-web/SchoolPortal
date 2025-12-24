@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Identity;
+
 namespace SchoolPortal.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int Id { get; set; }
-        public string? Username { get; set; }
-        public string? PasswordHash { get; set; }
-        public string? Role { get; set; }
+        public string? FullName { get; set; }
+        
+        // Store the role selected during registration
+        // public string? Role { get; set; }
     }
 }

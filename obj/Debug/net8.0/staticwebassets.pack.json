@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\SchoolPortal.bundle.scp.css"
     },
     {
+      "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\Images\\login-bg.jpg",
+      "PackagePath": "staticwebassets\\Images\\login-bg.jpg"
+    },
+    {
+      "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\auth.css",
+      "PackagePath": "staticwebassets\\css\\auth.css"
+    },
+    {
       "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

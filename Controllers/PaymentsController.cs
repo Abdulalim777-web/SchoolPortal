@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolPortal.Controllers
 {
+    [Authorize(Roles = "Admin,Bursar,Student")]
     public class PaymentsController : Controller
     {
         private readonly SchoolPortalDbContext _context;

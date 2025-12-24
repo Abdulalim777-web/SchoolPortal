@@ -1,6 +1,10 @@
 html {
   font-size: 14px;
 }
+.navbar .btn {
+    font-weight: 600;
+}
+
 
 @media (min-width: 768px) {
   html {
