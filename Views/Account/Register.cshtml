@@ -1,0 +1,135 @@
+﻿@model SchoolPortal.Models.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<style>
+    body {
+        background: #eef4ff;
+    }
+    .register-card {
+        max-width: 450px;
+        margin: 60px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+    .role-btn-group .btn {
+        border-radius: 20px;
+        padding: 6px 16px;
+    }
+</style>
+
+<div class="register-card">
+    <div class="text-center mb-3">
+        <i class="fa fa-user-plus fa-3x text-primary"></i>
+    </div>
+    @if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+
+    <h5 class="text-center mb-3">What type of user are you?</h5>
+
+    <!-- ROLE SELECT -->
+        <div class="d-flex justify-content-center gap-2 mb-4 role-btn-group">
+        <button type="button" class="btn btn-outline-primary role-btn" data-role="Student">Student</button>
+        <button type="button" class="btn btn-outline-primary role-btn" data-role="Teacher">Teacher</button>
+        <button type="button" class="btn btn-outline-primary role-btn" data-role="Bursar">Bursar</button>
+        
+    </div>
+
+    <form asp-action="Register" method="post">
+
+        <input type="hidden" asp-for="SelectedRole" id="SelectedRole" />
+
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="mb-3 input-group">
+            <span class="input-group-text bg-white"><i class="fa fa-id-badge text-muted"></i></span>
+            <input asp-for="FullName" class="form-control" placeholder="Full name" />
+        </div>
+        <span asp-validation-for="FullName" class="text-danger"></span>
+
+        <div class="mb-3 input-group">
+            <span class="input-group-text bg-white"><i class="fa fa-envelope text-muted"></i></span>
+            <input asp-for="Email" class="form-control" placeholder="Email" />
+        </div>
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text bg-white"><i class="fa fa-lock text-muted"></i></span>
+            <input asp-for="Password" type="password" class="form-control" id="regPassword" placeholder="Password" />
+            <button type="button" class="btn btn-outline-secondary" style="border-top-left-radius:0;border-bottom-left-radius:0" onclick="toggleRegPassword('regPassword')">
+                <i class="fa fa-eye"></i>
+            </button>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+
+        <div class="input-group mb-3">
+            <span class="input-group-text bg-white"><i class="fa fa-lock text-muted"></i></span>
+            <input asp-for="ConfirmPassword" type="password" class="form-control" id="regConfirmPassword" placeholder="Confirm password" />
+            <button type="button" class="btn btn-outline-secondary" style="border-top-left-radius:0;border-bottom-left-radius:0" onclick="toggleRegPassword('regConfirmPassword')">
+                <i class="fa fa-eye"></i>
+            </button>
+        </div>
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+        <button type="submit" class="btn btn-primary w-100">
+            <i class="fa fa-user-plus me-2"></i> Create account
+        </button>
+    </form>
+<hr />
+
+<div class="text-center">
+    <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+        <input type="hidden" name="provider" value="Google" />
+        <button type="submit" class="btn btn-outline-danger w-100">
+            <img src="https://developers.google.com/identity/images/g-logo.png"
+                 style="height:20px; margin-right:8px;" />
+            Continue with Google
+        </button>
+    </form>
+</div>
+
+    <div class="text-center mt-3">
+        Already have an account?
+        <a asp-action="Login">Log in</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.querySelectorAll(".role-btn").forEach(btn => {
+            btn.addEventListener("click", function () {
+                document.getElementById("SelectedRole").value = this.dataset.role;
+
+                document.querySelectorAll(".role-btn")
+                    .forEach(b => b.classList.remove("btn-primary"));
+
+                this.classList.add("btn-primary");
+            });
+        });
+    </script>
+}
+
+<script>
+    function toggleRegPassword(id) {
+        const input = document.getElementById(id);
+        input.type = input.type === "password" ? "text" : "password";
+    }
+</script>
+    

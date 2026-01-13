@@ -1,0 +1,25 @@
+@model SchoolPortal.Models.ViewModels.ProfileViewModel
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <div class="d-flex align-items-center mb-4">
+                <div class="avatar rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 60px; height: 60px; font-size: 24px;">
+                    @Model.FullName[0]@Model.FullName.Split(' ').Last()[0]
+                </div>
+                <div>
+                    <h4 class="mb-0">@Model.FullName</h4>
+                    <small class="text-muted">@Model.Email</small>
+                </div>
+            </div>
+
+            <hr />
+
+            
+        </div>
+    </div>
+</div>

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SchoolPortal.Controllers
 {
+    [Authorize(Roles = "Admin, Bursar,Staff")]    
     public class StaffController : Controller
     {
         private readonly SchoolPortalDbContext _context;
@@ -44,6 +46,7 @@ namespace SchoolPortal.Controllers
         }
 
         // GET: Staff/Create
+        [Authorize(Roles = "Admin, Bursar")]    
         public IActionResult Create()
         {
             return View();

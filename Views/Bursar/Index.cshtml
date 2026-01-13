@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "Bursar Dashboard";
+}
+
+<h2>Welcome, Bursar!</h2>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-header">Total Income</div>
+            <div class="card-body">
+                <h5 class="card-title">₦@ViewBag.TotalIncome</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-header">Total Expenses</div>
+            <div class="card-body">
+                <h5 class="card-title">₦@ViewBag.TotalExpenses</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-header">Balance</div>
+            <div class="card-body">
+                <h5 class="card-title">₦@ViewBag.Balance</h5>
+            </div>
+        </div>
+    </div>
+</div>

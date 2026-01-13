@@ -11,10 +11,16 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
+            RRR Number
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RrrNumber)
+        </dd>
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Student)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Student!.Id)
+            @Html.DisplayFor(model => model.Student!.FullName)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Amount)
@@ -37,6 +43,13 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("Admin") || User.IsInRole("Bursar"))
+    {
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+    }
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to List
+    </a>
 </div>

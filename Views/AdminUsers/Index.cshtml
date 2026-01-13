@@ -1,0 +1,42 @@
+@model IEnumerable<User>
+
+<h2>User Management</h2>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary">Create User</a>
+</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var user in Model)
+{
+    <tr>
+        <td>@user.Email</td>
+        <td>
+            @(user.IsSuspended ? "Suspended" : "Active")
+        </td>
+        <td>
+            <form asp-action="ToggleSuspension" method="post">
+                <input type="hidden" name="id" value="@user.Id" />
+                <button class="btn btn-warning btn-sm">
+                    @(user.IsSuspended ? "Unsuspend" : "Suspend")
+                </button>
+            </form>
+
+            <form asp-action="Delete" method="post" class="d-inline">
+                <input type="hidden" name="id" value="@user.Id" />
+                <button class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </td>
+    </tr>
+}
+    </tbody>
+</table>

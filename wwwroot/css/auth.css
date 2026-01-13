@@ -1,0 +1,71 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.auth-bg {
+    background: url('/images/login-bg.jpg') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-card {
+    width: 380px;
+    padding: 35px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    color: white;
+}
+
+.auth-input {
+    border-radius: 30px;
+    padding: 12px 18px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+}
+
+.auth-input::placeholder {
+    color: rgba(255,255,255,0.8);
+}
+
+.auth-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.25);
+}
+
+.auth-btn {
+    border-radius: 30px;
+    padding: 12px;
+    background: #ffd2b0;
+    color: #333;
+    font-weight: 600;
+    border: none;
+}
+
+.auth-btn:hover {
+    background: #ffc29a;
+}
+
+.auth-link {
+    color: #f8f9fa;
+    font-size: 0.9rem;
+    text-decoration: none;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.divider {
+    text-align: center;
+    font-size: 0.85rem;
+    margin: 15px 0;
+    color: rgba(255,255,255,0.8);
+}
