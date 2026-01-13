@@ -19,5 +19,7 @@ namespace SchoolPortal.Data
         public DbSet<Expense> Expenses { get; set; }
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Salary> Salaries { get; set; }
+        public DbSet<LoginAudit> LoginAudits { get; set; }
+        public DbSet<NavigationAudit> NavigationAudits { get; set; }
     }
 }

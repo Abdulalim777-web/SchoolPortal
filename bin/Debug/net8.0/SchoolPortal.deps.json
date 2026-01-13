@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "SchoolPortal/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Authentication.Google": "8.0.10",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "8.0.1",
           "Microsoft.AspNetCore.Identity.UI": "8.0.1",
           "Microsoft.EntityFrameworkCore": "8.0.1",
@@ -591,6 +592,14 @@
         "resources": {
           "lib/net6.0/zh-Hant/Humanizer.resources.dll": {
             "locale": "zh-Hant"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Authentication.Google/8.0.10": {
+        "runtime": {
+          "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
+            "assemblyVersion": "8.0.10.0",
+            "fileVersion": "8.0.1024.46804"
           }
         }
       },
@@ -2324,6 +2333,13 @@
       "sha512": "sha512-VIXB7HCUC34OoaGnO3HJVtSv2/wljPhjV7eKH4+TFPgQdJj2lvHNKY41Dtg0Bphu7X5UaXFR4zrYYyo+GNOjbA==",
       "path": "humanizer.core.zh-hant/2.14.1",
       "hashPath": "humanizer.core.zh-hant.2.14.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Authentication.Google/8.0.10": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ponvsoyGJKn19I8lbOE7RKP4et1sT4Mf5OFtBqF/5+CVfC4dgQry/jQud9rF66iFy0kdUHOoIK9LXtBfePQjvg==",
+      "path": "microsoft.aspnetcore.authentication.google/8.0.10",
+      "hashPath": "microsoft.aspnetcore.authentication.google.8.0.10.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/8.0.1": {
       "type": "package",

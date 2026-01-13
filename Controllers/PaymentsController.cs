@@ -24,8 +24,16 @@ namespace SchoolPortal.Controllers
         // GET: Payments
         public async Task<IActionResult> Index()
         {
-            var schoolPortalDbContext = _context.Payments.Include(p => p.Student);
-            return View(await schoolPortalDbContext.ToListAsync());
+            var payments = _context.Payments.Include(p => p.Student).AsQueryable();
+
+            // If current user is a Student, show only payments they created
+            if (User.Identity?.IsAuthenticated == true && User.IsInRole("Student"))
+            {
+                var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                payments = payments.Where(p => p.CreatedByUserId == userId);
+            }
+
+            return View(await payments.ToListAsync());
         }
 
         // GET: Payments/Details/5
@@ -48,9 +56,20 @@ namespace SchoolPortal.Controllers
         }
 
         // GET: Payments/Create
+        [Authorize(Roles = "Admin,Bursar,Student")]
         public IActionResult Create()
         {
-            ViewData["StudentId"] = new SelectList(_context.Students, "Id", "Id");
+            if (User.IsInRole("Student"))
+            {
+                // For students, they can only create payments for themselves
+                // Since there's no direct User-Student link, students will see a single student
+                ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName");
+            }
+            else
+            {
+                // For Admin and Bursar, they can create payments for any student
+                ViewData["StudentId"] = new SelectList(_context.Students, "Id", "FullName");
+            }
             return View();
         }
 
@@ -59,11 +78,21 @@ namespace SchoolPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,StudentId,Amount,Date,Purpose")] Payment payment)
+        [Authorize(Roles = "Admin,Bursar,Student")]
+        public async Task<IActionResult> Create([Bind("Id,StudentId,Amount,DatePaid,Purpose")] Payment payment)
         {
             if (ModelState.IsValid)
             {
+                // Set creator
+                payment.CreatedByUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+                payment.CreatedAt = DateTime.UtcNow;
+
                 _context.Add(payment);
+                await _context.SaveChangesAsync();
+
+                // Generate an RRR-style number using the newly assigned Id
+                payment.RrrNumber = $"RRR{payment.Id:D6}";
+                _context.Update(payment);
                 await _context.SaveChangesAsync();
 
                 // --- Auto-update student balance ---
@@ -82,6 +111,7 @@ namespace SchoolPortal.Controllers
 
 
         // GET: Payments/Edit/5
+        [Authorize(Roles = "Admin,Bursar")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -103,7 +133,8 @@ namespace SchoolPortal.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,Amount,Date,Purpose")] Payment payment)
+        [Authorize(Roles = "Admin,Bursar")]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,StudentId,Amount,DatePaid,Purpose")] Payment payment)
         {
             if (id != payment.Id)
                 return NotFound();
@@ -144,6 +175,7 @@ namespace SchoolPortal.Controllers
         }
 
         // GET: Payments/Delete/5
+        [Authorize(Roles = "Admin,Bursar")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -165,6 +197,7 @@ namespace SchoolPortal.Controllers
         // POST: Payments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin,Bursar")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var payment = await _context.Payments.FindAsync(id);

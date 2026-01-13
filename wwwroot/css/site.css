@@ -33,3 +33,153 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/* Theme variables */
+:root {
+  /* Branding colors (change these hex values to match your brand) */
+  --primary: #0B72B9; /* Brand Primary - strong blue */
+  --secondary: #0EA5A4; /* Teal accent */
+  --accent: #F59E0B; /* Accent (amber) */
+  --muted: #6B7280; /* Gray for text */
+  --bg: #F8FAFC; /* Page background */
+  --card-bg: #FFFFFF; /* Card background */
+
+  /* Spacing scale */
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 14px;
+  --space-lg: 20px;
+  --space-xl: 28px;
+}
+
+body {
+  background: var(--bg);
+  color: #111827;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Sidebar */
+#sidebar {
+  min-height: calc(100vh - 72px);
+  border-right: 1px solid #e5e7eb;
+  background: var(--card-bg);
+  padding-top: var(--space-md);
+}
+
+#sidebar .nav-link {
+  color: var(--muted);
+  padding: calc(var(--space-sm)) calc(var(--space-md));
+}
+
+#sidebar .nav-link.active, #sidebar .nav-link:hover {
+  color: var(--primary);
+  background: rgba(11,114,185,0.06);
+  border-radius: 8px;
+}
+
+/* Header tweaks */
+.navbar {
+  background: linear-gradient(90deg, rgba(11,114,185,0.04), rgba(14,165,164,0.02));
+  padding: calc(var(--space-sm)) calc(var(--space-md));
+}
+
+/* Card & form improvements */
+.card, .login-card, .register-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(17,24,39,0.06);
+  padding: var(--space-lg);
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: calc(var(--space-sm)) calc(var(--space-md));
+}
+
+label {
+  font-weight: 600;
+  color: #374151;
+}
+
+/* Buttons and form focus use brand primary */
+.btn-primary {
+  background-color: var(--primary) !important;
+  border-color: var(--primary) !important;
+  color: #ffffff !important;
+}
+.btn-primary:hover {
+  background-color: #095a92 !important; /* slightly darker */
+  border-color: #095a92 !important;
+}
+
+.btn-outline-primary {
+  color: var(--primary) !important;
+  border-color: var(--primary) !important;
+}
+.btn-outline-primary:hover {
+  background: rgba(11,114,185,0.06);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.12rem rgba(11,114,185,0.18);
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
+
+
+/* Responsive: collapse sidebar on small screens */
+@media (max-width: 767.98px) {
+  #sidebar { display: none; }
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+.avatar-lg {
+    width: 64px;
+    height: 64px;
+    font-size: 1.4rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4f46e5, #3b82f6);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-animate {
+    transition: all 0.3s ease;
+}
+
+.nav-animate:hover {
+    transform: translateY(-2px);
+}
+
+.dropdown-menu {
+    animation: dropdownFade 0.25s ease forwards;
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

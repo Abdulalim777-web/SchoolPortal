@@ -12,8 +12,7 @@ namespace SchoolPortal.Models
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "Please select a role")]
-        public string Role { get; set; } = string.Empty;
+        // Role is not required for standard login; removed to avoid validation failures
 
         public bool RememberMe { get; set; }
     }

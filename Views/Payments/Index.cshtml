@@ -6,15 +6,23 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.IsInRole("Bursar") || User.IsInRole("Admin") || User.IsInRole("Student"))
+{
+    <div class="mb-4">
+        <a asp-action="Create" class="btn btn-primary btn-lg">
+            <i class="fas fa-plus"></i> Create New Payment
+        </a>
+    </div>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Student)
-            </th>
+                    RRR Number
+                </th>
+            <th>
+                    @Html.DisplayNameFor(model => model.Student)
+                </th>
             <th>
                 @Html.DisplayNameFor(model => model.Amount)
             </th>
@@ -31,7 +39,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Student!.Id)
+                @Html.DisplayFor(modelItem => item.RrrNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student!.FullName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
@@ -43,9 +54,21 @@
                 @Html.DisplayFor(modelItem => item.Purpose)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @if (User.IsInRole("Admin") || User.IsInRole("Bursar"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                }
+                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                    <i class="fas fa-eye"></i> Details
+                </a>
+                @if (User.IsInRole("Admin") || User.IsInRole("Bursar"))
+                {
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Delete
+                    </a>
+                }
             </td>
         </tr>
 }

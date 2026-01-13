@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\css\\auth.css"
     },
     {
+      "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\landing.css",
+      "PackagePath": "staticwebassets\\css\\landing.css"
+    },
+    {
       "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

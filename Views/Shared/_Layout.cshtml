@@ -5,12 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolPortal</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p4VYk3l3Y7+o0JqKqzYV4qj+Z1K1Yz0XQeF1e1Xo6QYJw1JQKf3k3yQ5n1VJfQ9X1R2z3s4t5u6v7w8x9==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light">
             <div class="container-fluid">
+                <button class="btn btn-outline-secondary d-md-none me-2" id="sidebarToggle" title="Toggle navigation">
+                    <i class="fa fa-bars"></i>
+                </button>
                 <!-- LEFT SIDE NAV -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
@@ -18,99 +24,57 @@
                            class="nav-link btn btn-outline-secondary rounded-pill me-2">
                             SchoolPortal
                         </a>
-                    </li>
-                    @if (User.Identity!.IsAuthenticated)
-                    {
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a asp-controller="Dashboard" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Students" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Students
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Expenses" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Expenses
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Staff" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Staff
-                                </a>
-                            </li><li class="nav-item">
-                                <a asp-controller="Payments" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Payments
-                                </a>
-                            </li>
-
-
-                        }
-
-                        @if (User.IsInRole("Bursar"))
-                        {
-                            <li class="nav-item">
-                                <a asp-controller="Payments" asp-action="Index"
-                                   class="nav-link btn btn-outline-success rounded-pill me-2">
-                                    Payments
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Salaries" asp-action="Index"
-                                   class="nav-link btn btn-outline-success rounded-pill me-2">
-                                    Salaries
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-controller="Expenses" asp-action="Index"
-                                   class="nav-link btn btn-outline-primary rounded-pill me-2">
-                                    Expenses
-                                </a>
-                            </li>
-                        }
-
-                        @if (User.IsInRole("Student"))
-                        {
-                            <li class="nav-item">
-                                <a asp-controller="Payments" asp-action="Index"
-                                   class="nav-link btn btn-outline-info rounded-pill me-2">
-                                    My Payments
-                                </a>
-                            </li>
-                        }
-                    }
+                    </li>  
                 </ul>
 
                 <!-- RIGHT SIDE AUTH -->
                 <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
-                    @if (User.Identity!.IsAuthenticated)
-                    {
-                        <li class="nav-item">
-                            <form asp-controller="Account" asp-action="Logout" method="post">
-                                <button type="submit" class="btn btn-danger rounded-pill px-4">
-                                    Logout
-                                </button>
-                            </form>
-                        </li>
-                    }
-                    else
-                    {
-                        <li class="nav-item">
-                            <a asp-controller="Account" asp-action="Login"
-                               class="btn btn-outline-dark rounded-pill px-4">
-                                Login
-                            </a>
-                        </li>
-                    }
+                   @if (!User.Identity!.IsAuthenticated)
+                   {           
+                        <a href="/Account/Register" class="btn btn-primary">Enroll Now</a>
+                   }
+
+                   @using Microsoft.AspNetCore.Identity
+                    @inject UserManager<User> UserManager
+                   @if (User.Identity?.IsAuthenticated == true)
+{
+    var currentUser = await UserManager.GetUserAsync(User);
+    var roles = await UserManager.GetRolesAsync(currentUser!);
+
+    <li class="nav-item dropdown nav-animate">
+        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2"
+           href="#"
+           data-bs-toggle="dropdown">
+
+           
+            <div class="text-start">
+                <div class="fw-semibold">@currentUser!.FullName</div>
+                <small class="text-muted">@roles.FirstOrDefault()</small>
+            </div>
+        </a>
+
+        <ul class="dropdown-menu dropdown-menu-end shadow">
+            <li>
+                <a class="dropdown-item"
+                   asp-controller="Account"
+                   asp-action="Profile">
+                    Profile
+                </a>
+            </li>
+
+            <li><hr class="dropdown-divider" /></li>
+
+            <li>
+                <form asp-controller="Account"
+                      asp-action="Logout"
+                      method="post">
+                    @Html.AntiForgeryToken()
+                    <button class="dropdown-item">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
                 </ul>
             </div>
         </nav>
@@ -134,10 +98,59 @@
         </div>
     </header>
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <nav id="sidebar" class="col-md-2 d-none d-md-block">
+                <div class="px-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-1">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index"><i class="fa fa-home me-2"></i> Home</a>
+                        </li>
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="AdminUsers" asp-action="Index"><i class="fa fa-users-cog me-2"></i> Manage Users</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="AdminAudit" asp-action="LoginAttempts"><i class="fa fa-history me-2"></i> Login Audit</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
+
+                            }
+
+                            if (User.IsInRole("Bursar"))
+                            {
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                            }
+
+                            if (User.IsInRole("Teacher"))
+                            {
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                            }
+                           
+
+                            if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> My Payments</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-10 ms-sm-auto px-4 py-3">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -148,6 +161,14 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Toggle sidebar on small screens
+        document.getElementById('sidebarToggle')?.addEventListener('click', function () {
+            var sb = document.getElementById('sidebar');
+            if (!sb) return;
+            if (sb.style.display === 'block') sb.style.display = 'none'; else sb.style.display = 'block';
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

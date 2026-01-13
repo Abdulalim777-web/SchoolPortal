@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "W4DDpFKfVHCyTye3136PrqDnNjMuyZSnAk4zUXiwf6Y=",
+  "Hash": "+ZjiiDWivoilsEAZyY5T03O/EYoee8X2oNp3u3pONeM=",
   "Source": "SchoolPortal",
   "BasePath": "_content/SchoolPortal",
   "Mode": "Default",
@@ -1212,6 +1212,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\auth.css"
+    },
+    {
+      "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\landing.css",
+      "SourceId": "SchoolPortal",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PROJECT\\SchoolPortal\\wwwroot\\",
+      "BasePath": "_content/SchoolPortal",
+      "RelativePath": "css/landing.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\landing.css"
     },
     {
       "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\site.css",

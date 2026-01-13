@@ -10,6 +10,7 @@ D:\PROJECT\SchoolPortal\bin\Debug\net8.0\SchoolPortal.pdb
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Azure.Core.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Azure.Identity.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Humanizer.dll
+D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.Google.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 D:\PROJECT\SchoolPortal\bin\Debug\net8.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

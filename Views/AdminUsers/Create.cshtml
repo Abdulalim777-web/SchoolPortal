@@ -1,0 +1,58 @@
+@model SchoolPortal.Models.AdminCreateUserViewModel
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<div class="d-flex align-items-center mb-3">
+    <i class="fa fa-user-cog fa-2x text-primary me-2"></i>
+    <h3 class="m-0">Create User</h3>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="mb-3 input-group">
+                <span class="input-group-text bg-white"><i class="fa fa-id-badge text-muted"></i></span>
+                <input asp-for="FullName" class="form-control" placeholder="Full name" />
+            </div>
+            <span asp-validation-for="FullName" class="text-danger"></span>
+
+            <div class="mb-3 input-group">
+                <span class="input-group-text bg-white"><i class="fa fa-envelope text-muted"></i></span>
+                <input asp-for="Email" class="form-control" placeholder="Email" />
+            </div>
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <div class="mb-3 input-group">
+                <span class="input-group-text bg-white"><i class="fa fa-lock text-muted"></i></span>
+                <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+            </div>
+            <span asp-validation-for="Password" class="text-danger"></span>
+
+            <div class="mb-3 input-group">
+                <span class="input-group-text bg-white"><i class="fa fa-lock text-muted"></i></span>
+                <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm password" />
+            </div>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select asp-for="SelectedRole" class="form-select">
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Bursar">Bursar</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary"><i class="fa fa-plus me-2"></i>Create</button>
+            <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

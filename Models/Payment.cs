@@ -22,5 +22,12 @@ namespace SchoolPortal.Models
 
         [StringLength(100)]
         public string? Purpose { get; set; }
+
+        [StringLength(50)]
+        public string? RrrNumber { get; set; }
+
+        // The user who created this payment (optional)
+        public string? CreatedByUserId { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
