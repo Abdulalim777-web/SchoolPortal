@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+ZjiiDWivoilsEAZyY5T03O/EYoee8X2oNp3u3pONeM=",
+  "Hash": "/gA1anDwHPkBaM3hEJ9FFf1pHEGZhr+sqBN1ec2eiOs=",
   "Source": "SchoolPortal",
   "BasePath": "_content/SchoolPortal",
   "Mode": "Default",
@@ -1233,6 +1233,25 @@
       "OriginalItemSpec": "wwwroot\\css\\landing.css"
     },
     {
+      "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\payment.css",
+      "SourceId": "SchoolPortal",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PROJECT\\SchoolPortal\\wwwroot\\",
+      "BasePath": "_content/SchoolPortal",
+      "RelativePath": "css/payment.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\payment.css"
+    },
+    {
       "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\site.css",
       "SourceId": "SchoolPortal",
       "SourceType": "Discovered",
@@ -1288,6 +1307,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Images\\login-bg.jpg"
+    },
+    {
+      "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\Images\\payment-bg.png",
+      "SourceId": "SchoolPortal",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\PROJECT\\SchoolPortal\\wwwroot\\",
+      "BasePath": "_content/SchoolPortal",
+      "RelativePath": "Images/payment-bg.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Images\\payment-bg.png"
     },
     {
       "Identity": "D:\\PROJECT\\SchoolPortal\\wwwroot\\js\\site.js",

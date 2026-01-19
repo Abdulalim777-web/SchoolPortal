@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-p4VYk3l3Y7+o0JqKqzYV4qj+Z1K1Yz0XQeF1e1Xo6QYJw1JQKf3k3yQ5n1VJfQ9X1R2z3s4t5u6v7w8x9==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/landing.css" asp-append-version="true" />
+   
+
 
 </head>
 <body>
@@ -110,46 +112,67 @@
                         {
                             if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="AdminUsers" asp-action="Index"><i class="fa fa-users-cog me-2"></i> Manage Users</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="AdminAudit" asp-action="LoginAttempts"><i class="fa fa-history me-2"></i> Login Audit</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index"> <i class="fa fa-tachometer-alt me-2"></i> Dashboard </a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("AdminUsers")" asp-controller="AdminUsers" asp-action="Index"><i class="fa fa-users-cog me-2"></i> Manage Users</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("AdminAudit")" asp-controller="AdminAudit" asp-action="LoginAttempts"><i class="fa fa-history me-2"></i> Login Audit</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Staff")" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Salaries")" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Expenses")" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
 
                             }
 
                             if (User.IsInRole("Bursar"))
                             {
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index"><i class="fa fa-wallet me-2"></i> Payments</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Salaries")" asp-controller="Salaries" asp-action="Index"><i class="fa fa-money-bill-wave me-2"></i> Salaries</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Expenses")" asp-controller="Expenses" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> Expenses</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Staff")" asp-controller="Staff" asp-action="Index"><i class="fa fa-chalkboard-teacher me-2"></i> Staff</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
                             }
 
                             if (User.IsInRole("Teacher"))
                             {
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index"><i class="fa fa-user-graduate me-2"></i> Students</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index"><i class="fa fa-tachometer-alt me-2"></i> Dashboard</a></li>
                             }
                            
 
                             if (User.IsInRole("Student"))
                             {
-                                <li class="nav-item mb-1"><a class="nav-link" asp-controller="Payments" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> My Payments</a></li>
+                                <li class="nav-item mb-1"><a class="nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index"><i class="fa fa-file-invoice-dollar me-2"></i> My Payments</a></li>
                             }
                         }
+                        @{
+                            string IsActive(string controller) =>
+                                ViewContext.RouteData.Values["controller"]?.ToString() == controller
+                                ? "active"
+                                : "";
+                        }
+
                     </ul>
                 </div>
             </nav>
 
-            <main role="main" class="col-md-10 ms-sm-auto px-4 py-3">
-                @RenderBody()
+            <main role="main" class="col-md-10 ms-sm-auto px-0 py-0">
+
+                @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Payments")
+                {
+                    <div class="payment-bg">
+                        @RenderBody()
+                    </div>
+                }
+                else
+                {
+                    <div class="px-4 py-3">
+                        @RenderBody()
+                    </div>
+                }
+
             </main>
+
         </div>
     </div>
 
@@ -162,13 +185,14 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Toggle sidebar on small screens
-        document.getElementById('sidebarToggle')?.addEventListener('click', function () {
-            var sb = document.getElementById('sidebar');
-            if (!sb) return;
-            if (sb.style.display === 'block') sb.style.display = 'none'; else sb.style.display = 'block';
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn?.addEventListener('click', () => {
+            sidebar.classList.toggle('sidebar-open');
         });
     </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

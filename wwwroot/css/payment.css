@@ -1,0 +1,22 @@
+.payment-bg {
+    position: relative;
+    min-height: 100vh;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55) ), url("/images/payment-bg.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px 20px;
+}
+
+    .payment-bg::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.35);
+        z-index: 0;
+    }
+
+    .payment-bg > * {
+        position: relative;
+        z-index: 1;
+    }

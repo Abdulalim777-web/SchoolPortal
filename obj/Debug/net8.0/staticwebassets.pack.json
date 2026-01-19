@@ -9,12 +9,20 @@
       "PackagePath": "staticwebassets\\Images\\login-bg.jpg"
     },
     {
+      "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\Images\\payment-bg.png",
+      "PackagePath": "staticwebassets\\Images\\payment-bg.png"
+    },
+    {
       "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\auth.css",
       "PackagePath": "staticwebassets\\css\\auth.css"
     },
     {
       "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\landing.css",
       "PackagePath": "staticwebassets\\css\\landing.css"
+    },
+    {
+      "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\payment.css",
+      "PackagePath": "staticwebassets\\css\\payment.css"
     },
     {
       "Id": "D:\\PROJECT\\SchoolPortal\\wwwroot\\css\\site.css",
