@@ -14,19 +14,32 @@
                     anytime
                 </h1>
 
-                <p class="hero-text">
-                    SchoolPortal helps students, teachers, and administrators
-                    manage education seamlessly with secure access and analytics.
-                </p>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <p class="hero-text">
+                        Welcome back to SchoolPortal! Access your courses and continue your learning journey.
+                    </p>
+                }
+                else
+                {
+                    <p class="hero-text">
+                        Join SchoolPortal today and unlock a world of knowledge at your fingertips.
+                    </p>
+                
+                    <p class="hero-text">
+                        SchoolPortal helps students, teachers, and administrators
+                        manage education seamlessly with secure access and analytics.
+                    </p>
 
-                <div class="hero-actions">
-                    <a href="/Account/Register" class="btn btn-primary btn-lg rounded-pill">
-                        Enroll Now
-                    </a>
-                    <a href="/Account/Login" class="btn btn-outline-secondary btn-lg rounded-pill ms-3">
-                        Log In
-                    </a>
-                </div>
+                    <div class="hero-actions">
+                        <a href="/Account/Register" class="btn btn-primary btn-lg rounded-pill">
+                            Enroll Now
+                        </a>
+                        <a href="/Account/Login" class="btn btn-outline-secondary btn-lg rounded-pill ms-3">
+                            Log In
+                        </a>
+                    </div>
+                }
             </div>
 
             <!-- RIGHT IMAGE -->
