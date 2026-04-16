@@ -1,0 +1,58 @@
+# Binaries for projects deployed into IIS
+*.dll
+*.exe
+*.pdb
+
+# NuGet Packages
+packages/
+
+# Build and deploy folders
+bin/
+obj/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+
+# Bundler minification
+*.min.css
+*.min.js
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio Code
+.vscode/
+
+# Visual Studio
+.vs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Database files
+*.db
+*.sqlite
+*.db-shm
+*.db-wal
+
+# Secret configuration files
+appsettings.Secret*.json
+
+# EF Core Migrations (optional, but good to include if customizing)
+# */Migrations/*/Snapshot.cs  (but usually committed)
+
+# Additional for ASP.NET
+wwwroot/lib/
+wwwroot/dist/
+
+# Node.js (if using npm for front-end)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
