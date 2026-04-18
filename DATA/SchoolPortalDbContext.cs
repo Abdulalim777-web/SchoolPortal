@@ -5,8 +5,7 @@ using SchoolPortal.Models;
 
 namespace SchoolPortal.Data
 {
-    // DbContext supporting roles
-    public class SchoolPortalDbContext 
+    public class SchoolPortalDbContext
         : IdentityDbContext<User, IdentityRole, string>
     {
         public SchoolPortalDbContext(DbContextOptions<SchoolPortalDbContext> options)
@@ -21,5 +20,34 @@ namespace SchoolPortal.Data
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<LoginAudit> LoginAudits { get; set; }
         public DbSet<NavigationAudit> NavigationAudits { get; set; }
+
+        // ── NEW ─────────────────────────────────────────
+        public DbSet<TransactionLog> TransactionLogs { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            // SQL Server does not allow multiple cascade paths to the same table.
+            // All User FK relationships on Payment and TransactionLog must use NoAction.
+
+            builder.Entity<Payment>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(p => p.ApprovedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Payment>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(p => p.CreatedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<TransactionLog>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(t => t.PerformedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
     }
 }

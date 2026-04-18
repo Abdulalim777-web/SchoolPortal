@@ -1,57 +1,90 @@
 @model SchoolPortal.Models.Payment
 
 @{
-    ViewData["Title"] = "Make Payment";
+    ViewData["Title"] = "New Payment";
+    var studentList = ViewData["StudentId"] as Microsoft.AspNetCore.Mvc.Rendering.SelectList;
 }
 
-<div class="payment-bg">
-    <div class="container d-flex justify-content-center">
-        <div class="card shadow-lg border-0 rounded-4 col-md-6">
+<div class="row justify-content-center mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
             <div class="card-body p-4">
 
-                <h4 class="mb-4 text-center fw-bold">Make Payment</h4>
+                <h5 class="mb-4">Submit Payment</h5>
 
-                <form asp-action="Create" method="post">
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
                     @Html.AntiForgeryToken()
 
-                    <div class="mb-3">
-                        <label class="form-label">Student</label>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
-                        @if (User.IsInRole("Admin") || User.IsInRole("Bursar"))
-                        {
-                            <select asp-for="StudentId"
-                                    class="form-control"
-                                    asp-items="@((SelectList)ViewData["StudentId"])">
-                                <option value="">-- Select student --</option>
-                            </select>
-                            <span asp-validation-for="StudentId" class="text-danger"></span>
-                        }
-                        else
-                        {
+                    @* ── Student field ── *@
+                    @if (User.IsInRole("Student"))
+                    {
+                        <input type="hidden" asp-for="StudentId" />
+                        <div class="mb-3">
+                            <label class="form-label">Student</label>
                             <input class="form-control" value="@ViewBag.StudentName" readonly />
-                            <input type="hidden" asp-for="StudentId" />
-                        }
-                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <label asp-for="StudentId" class="form-label">Student</label>
+                            <select asp-for="StudentId" asp-items="studentList" class="form-select">
+                                    class="form-select">
+                                <option value="">– Select student –</option>
+                            </select>
+                            <span asp-validation-for="StudentId" class="text-danger small"></span>
+                        </div>
+                    }
 
+                    @* ── Amount ── *@
                     <div class="mb-3">
                         <label asp-for="Amount" class="form-label"></label>
-                        <input asp-for="Amount" class="form-control" />
-                        <span asp-validation-for="Amount" class="text-danger"></span>
+                        <div class="input-group">
+                            <span class="input-group-text">₦</span>
+                            <input asp-for="Amount" class="form-control" type="number"
+                                   step="0.01" min="0.01" placeholder="0.00" />
+                        </div>
+                        <span asp-validation-for="Amount" class="text-danger small"></span>
                     </div>
 
-                    <div class="mb-3">
-                        <label asp-for="DatePaid" class="form-label"></label>
-                        <input asp-for="DatePaid" class="form-control" />
-                    </div>
-
+                    @* ── Purpose ── *@
                     <div class="mb-3">
                         <label asp-for="Purpose" class="form-label"></label>
-                        <input asp-for="Purpose" class="form-control" />
+                        <select asp-for="Purpose" class="form-select">
+                            <option value="">– Select purpose –</option>
+                            <option value="School Fees">School Fees</option>
+                            <option value="Donations">Donations</option>
+                            <option value="Levies">Levies</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span asp-validation-for="Purpose" class="text-danger small"></span>
                     </div>
 
-                    <div class="d-flex justify-content-between mt-4">
-                        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
-                        <button type="submit" class="btn btn-primary px-4">Pay Now</button>
+                    @* ── Date ── *@
+                    <div class="mb-3">
+                        <label asp-for="DatePaid" class="form-label"></label>
+                        <input asp-for="DatePaid" class="form-control" type="date" />
+                        <span asp-validation-for="DatePaid" class="text-danger small"></span>
+                    </div>
+
+                    @* ── Receipt upload ── *@
+                    <div class="mb-4">
+                        <label for="receiptFile" class="form-label">
+                            Receipt <span class="text-danger">*</span>
+                        </label>
+                        <input type="file" name="receiptFile" id="receiptFile"
+                               class="form-control"
+                               accept=".pdf,.jpg,.jpeg,.png" required />
+                        <div class="form-text">PDF or image (JPG/PNG). Max 5 MB.</div>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-upload me-1"></i> Submit Payment
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
                     </div>
                 </form>
 
