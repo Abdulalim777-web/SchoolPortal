@@ -1,30 +1,176 @@
 @model DashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var monthNames  = new[] { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+    var chartLabels = Model.MonthlyIncome?.Select(x => monthNames[x.Month - 1]).ToList() ?? new List<string>();
+    var incomeData  = Model.MonthlyIncome?.Select(x => x.TotalIncome).ToList() ?? new List<decimal>();
+    var expenseData = Model.MonthlyExpenses?.Select(x => x.TotalExpense).ToList() ?? new List<decimal>();
+}
 
-<div class="row mb-4">
-    <div class="col-md-4">
-        <div class="card shadow rounded-4">
-            <div class="card-body text-center">
-                <h6>Total Income</h6>
-                <h3 class="text-success">₦@Model.TotalIncome</h3>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0">Admin Dashboard</h4>
+        <small class="text-muted">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</small>
+    </div>
+    <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill">
+        <i class="fa fa-calendar me-1"></i> @DateTime.Now.Year Term
+    </span>
+</div>
+
+
+<div class="row g-3 mb-3">
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-green">
+            <div class="dash-card-icon"><i class="fa fa-arrow-trend-up"></i></div>
+            <div>
+                <div class="dash-card-label">Total Income</div>
+                <div class="dash-card-value">₦@Model.TotalIncome.ToString("N0")</div>
+                <div class="dash-card-sub">All approved payments</div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card shadow rounded-4">
-            <div class="card-body text-center">
-                <h6>Total Expenses</h6>
-                <h3 class="text-danger">₦@Model.TotalExpenses</h3>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-red">
+            <div class="dash-card-icon"><i class="fa fa-arrow-trend-down"></i></div>
+            <div>
+                <div class="dash-card-label">Total Expenses</div>
+                <div class="dash-card-value">₦@Model.TotalExpenses.ToString("N0")</div>
+                <div class="dash-card-sub">All recorded expenses</div>
             </div>
         </div>
     </div>
-
-    <div class="col-md-4">
-        <div class="card shadow rounded-4">
-            <div class="card-body text-center">
-                <h6>Balance</h6>
-                <h3 class="text-primary">₦@Model.Balance</h3>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card @(Model.Balance >= 0 ? "dash-card-blue" : "dash-card-red")">
+            <div class="dash-card-icon"><i class="fa fa-scale-balanced"></i></div>
+            <div>
+                <div class="dash-card-label">Net Balance</div>
+                <div class="dash-card-value">₦@Model.Balance.ToString("N0")</div>
+                <div class="dash-card-sub">Income minus expenses</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-orange">
+            <div class="dash-card-icon"><i class="fa fa-clock"></i></div>
+            <div>
+                <div class="dash-card-label">Pending Payments</div>
+                <div class="dash-card-value">@Model.PendingPayments</div>
+                <div class="dash-card-sub">Awaiting bursar approval</div>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-6">
+        <div class="dash-card dash-card-indigo">
+            <div class="dash-card-icon"><i class="fa fa-user-graduate"></i></div>
+            <div>
+                <div class="dash-card-label">Total Students</div>
+                <div class="dash-card-value">@Model.TotalStudents</div>
+                <div class="dash-card-sub">Currently enrolled</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="dash-card dash-card-teal">
+            <div class="dash-card-icon"><i class="fa fa-chalkboard-teacher"></i></div>
+            <div>
+                <div class="dash-card-label">Total Staff</div>
+                <div class="dash-card-value">@Model.TotalStaff</div>
+                <div class="dash-card-sub">Active staff members</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-semibold mb-0">
+                        <i class="fa fa-chart-line me-2 text-primary"></i>
+                        Income vs Expenses — @DateTime.Now.Year
+                    </h6>
+                    <span class="badge bg-light text-muted border">Monthly</span>
+                </div>
+                <canvas id="financeChart" height="90"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+        <h6 class="fw-semibold mb-3"><i class="fa fa-bolt me-2 text-warning"></i>Quick Actions</h6>
+        <div class="d-flex flex-wrap gap-2">
+            <a asp-controller="Students" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                <i class="fa fa-user-graduate me-1"></i> Students
+            </a>
+            <a asp-controller="Staff"      asp-action="Index" class="btn btn-outline-secondary btn-sm">
+                <i class="fa fa-chalkboard-teacher me-1"></i> Staff
+            </a>
+            <a asp-controller="Payments"   asp-action="Index" class="btn btn-outline-success btn-sm">
+                <i class="fa fa-wallet me-1"></i> Payments
+            </a>
+            <a asp-controller="Expenses"   asp-action="Index" class="btn btn-outline-danger btn-sm">
+                <i class="fa fa-file-invoice-dollar me-1"></i> Expenses
+            </a>
+            <a asp-controller="Salaries"   asp-action="Index" class="btn btn-outline-warning btn-sm">
+                <i class="fa fa-money-bill-wave me-1"></i> Salaries
+            </a>
+            <a asp-controller="AdminUsers" asp-action="Index" class="btn btn-outline-dark btn-sm">
+                <i class="fa fa-users-cog me-1"></i> Manage Users
+            </a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('financeChart'), {
+    type: 'line',
+    data: {
+        labels: @Html.Raw(Json.Serialize(chartLabels)),
+        datasets: [
+            {
+                label: 'Income',
+                data: @Html.Raw(Json.Serialize(incomeData)),
+                borderColor: '#22c55e',
+                backgroundColor: 'rgba(34,197,94,0.07)',
+                borderWidth: 2.5, fill: true, tension: 0.4,
+                pointBackgroundColor: '#22c55e', pointRadius: 4, pointHoverRadius: 6
+            },
+            {
+                label: 'Expenses',
+                data: @Html.Raw(Json.Serialize(expenseData)),
+                borderColor: '#ef4444',
+                backgroundColor: 'rgba(239,68,68,0.07)',
+                borderWidth: 2.5, fill: true, tension: 0.4,
+                pointBackgroundColor: '#ef4444', pointRadius: 4, pointHoverRadius: 6
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } },
+            tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: { color: 'rgba(0,0,0,0.04)' },
+                ticks: { callback: v => '₦' + v.toLocaleString() }
+            },
+            x: { grid: { display: false } }
+        }
+    }
+});
+</script>
+}

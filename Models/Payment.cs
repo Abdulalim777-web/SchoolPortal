@@ -10,6 +10,14 @@ namespace SchoolPortal.Models
         Approved     // bursar confirmed, balance updated
     }
 
+    public enum PaymentPurpose
+    {
+        SchoolFees = 1,
+        Donations = 2,
+        PTALevy = 3,
+        Other = 4
+    }
+
     public class Payment
     {
         public int Id { get; set; }
@@ -27,8 +35,7 @@ namespace SchoolPortal.Models
         [Required]
         public DateTime DatePaid { get; set; }
 
-        [StringLength(100)]
-        public string? Purpose { get; set; }
+        public PaymentPurpose? Purpose { get; set; }
 
         [StringLength(50)]
         public string? RrrNumber { get; set; }

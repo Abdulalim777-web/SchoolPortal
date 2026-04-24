@@ -1,0 +1,96 @@
+@model SchoolPortal.Models.ViewModels.TeacherSalarySummaryVM
+
+@{
+    ViewData["Title"] = "Salary Summary";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>@Model.FullName - @Model.Position</h2>
+            <hr />
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h6 class="card-title">Term Salary Total</h6>
+                    <h4>₦@Model.TermSalaryTotal.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h6 class="card-title">Paid</h6>
+                    <h4>₦@Model.SalaryPaid.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h6 class="card-title">Balance</h6>
+                    <h4>₦@Model.SalaryBalance.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h6 class="card-title">Months (Term)</h6>
+                    <h4>@Model.TermMonthsCount</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Salary Payment History -->
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Salary Payment History</h5>
+            @if (Model.PaymentHistory?.Any() == true)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var salary in Model.PaymentHistory.OrderByDescending(s => s.Month))
+                        {
+                            <tr>
+                                <td>@salary.Month.ToString("MMMM yyyy")</td>
+                                <td>₦@salary.Amount.ToString("N2")</td>
+                                <td>
+                                    @if (salary.IsPaid)
+                                    {
+                                        <span class="badge bg-success">Paid</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">Pending</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">No salary records for this term.</div>
+            }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="@Url.Action("Details", new { id = Model.StaffId })" class="btn btn-secondary">Back</a>
+    </div>
+</div>

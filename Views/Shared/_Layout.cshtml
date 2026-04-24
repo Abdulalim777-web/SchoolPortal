@@ -249,6 +249,14 @@
 
                 @if (User.IsInRole("Student"))
                 {
+                    <div class="sp-nav-label">Main</div>
+
+                    <a class="sp-nav-link @IsActive("Dashboard")"
+                       asp-controller="Dashboard" asp-action="Index">
+                        <span class="sp-nav-icon"><i class="fa fa-tachometer-alt"></i></span>
+                        <span>Dashboard</span>
+                    </a>
+                    
                     <div class="sp-nav-label">My Account</div>
 
                     <a class="sp-nav-link @IsActive("Payments")"

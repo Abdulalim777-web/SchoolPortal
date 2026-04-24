@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
 using Microsoft.AspNetCore.Authorization;
+using SchoolPortal.Services;
 
 namespace SchoolPortal.Controllers
 {
@@ -15,10 +16,12 @@ namespace SchoolPortal.Controllers
     public class StaffController : Controller
     {
         private readonly SchoolPortalDbContext _context;
+        private readonly StaffService _staffService;
 
-        public StaffController(SchoolPortalDbContext context)
+        public StaffController(SchoolPortalDbContext context, StaffService staffService)
         {
             _context = context;
+            _staffService = staffService;
         }
 
         // GET: Staff
@@ -155,6 +158,20 @@ namespace SchoolPortal.Controllers
         private bool StaffExists(int id)
         {
             return _context.Staffs.Any(e => e.Id == id);
+        }
+
+        // GET: Staff/SalarySummary/5
+        [Authorize(Roles = "Admin, Bursar, Staff")]
+        public async Task<IActionResult> SalarySummary(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var summary = await _staffService.GetTermSalarySummaryAsync(id.Value);
+            if (summary == null)
+                return NotFound();
+
+            return View(summary);
         }
     }
 }

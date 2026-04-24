@@ -52,7 +52,7 @@
                     <td>@p.Id</td>
                     <td>@p.Student?.FullName</td>
                     <td>₦@p.Amount.ToString("N2")</td>
-                    <td>@(p.Purpose ?? "–")</td>
+                    <td>@(p.Purpose?.ToString() ?? "–")</td>
                     <td>@p.DatePaid.ToString("dd MMM yyyy")</td>
                     <td>
                         @if (!string.IsNullOrEmpty(p.ReceiptPath))

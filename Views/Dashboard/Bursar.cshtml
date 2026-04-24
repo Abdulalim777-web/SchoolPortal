@@ -1,12 +1,273 @@
 @model DashboardViewModel
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Bursar Dashboard";
+    var monthNames      = new[] { "Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec" };
+    var chartLabels     = Model.MonthlyExpenses?.Select(x => monthNames[x.Month - 1]).ToList() ?? new List<string>();
+    var expenseData     = Model.MonthlyExpenses?.Select(x => x.TotalExpense).ToList() ?? new List<decimal>();
+    var incomeData      = Model.MonthlyIncome?.Select(x => x.TotalIncome).ToList() ?? new List<decimal>();
+    var catLabels       = Model.ExpenseByCategory?.Select(e => e.Category ?? "Other").ToList() ?? new List<string>();
+    var catData         = Model.ExpenseByCategory?.Select(e => e.Total).ToList() ?? new List<decimal>();
 }
 
-<h2>Admin Dashboard</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0">Bursar Dashboard</h4>
+        <small class="text-muted">@DateTime.Now.ToString("dddd, dd MMMM yyyy") · Term financial summary</small>
+    </div>
+    <a asp-controller="Payments" asp-action="Index" class="btn btn-primary btn-sm">
+        <i class="fa fa-wallet me-1"></i> All Payments
+    </a>
+</div>
 
-<partial name="_DashboardStats" />
+<div class="row g-3 mb-4">
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-green">
+            <div class="dash-card-icon"><i class="fa fa-check-circle"></i></div>
+            <div>
+                <div class="dash-card-label">Approved Income</div>
+                <div class="dash-card-value">₦@Model.TotalIncome.ToString("N0")</div>
+                <div class="dash-card-sub">Confirmed payments</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-red">
+            <div class="dash-card-icon"><i class="fa fa-receipt"></i></div>
+            <div>
+                <div class="dash-card-label">Term Expenses</div>
+                <div class="dash-card-value">₦@Model.TotalExpenses.ToString("N0")</div>
+                <div class="dash-card-sub">@DateTime.Now.Year recorded</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-orange">
+            <div class="dash-card-icon"><i class="fa fa-hourglass-half"></i></div>
+            <div>
+                <div class="dash-card-label">Awaiting Approval</div>
+                <div class="dash-card-value">@Model.InitiatedPaymentsCount</div>
+                <div class="dash-card-sub">Payments initiated</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-xl-3">
+        <div class="dash-card dash-card-blue">
+            <div class="dash-card-icon"><i class="fa fa-university"></i></div>
+            <div>
+                <div class="dash-card-label">School Fees Paid</div>
+                <div class="dash-card-value">₦@Model.TotalSchoolFeesPaid.ToString("N0")</div>
+                <div class="dash-card-sub">Approved school fees</div>
+            </div>
+        </div>
+    </div>
+</div>
 
-<a class="btn btn-primary rounded-pill" href="/Students">Manage Students</a>
-<a class="btn btn-secondary rounded-pill" href="/Staff">Manage Staff</a>
-<a class="btn btn-danger rounded-pill" href="/Expenses">View Expenses</a>
+<div class="row g-3 mb-4">
+
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-semibold mb-0">
+                        <i class="fa fa-chart-bar me-2 text-primary"></i>
+                        Income vs Expenses — @DateTime.Now.Year
+                    </h6>
+                </div>
+                <canvas id="financeChart" height="150"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-chart-pie me-2 text-danger"></i>
+                    Expenses by Category
+                </h6>
+                @if (Model.ExpenseByCategory?.Any() == true)
+                {
+                    <canvas id="expensePieChart" height="175"></canvas>
+                }
+                else
+                {
+                    <div class="text-center text-muted py-5">
+                        <i class="fa fa-chart-pie fa-2x mb-2 d-block opacity-20"></i>
+                        No expense data yet.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<div class="row g-3 mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-graduation-cap me-2 text-indigo" style="color:#4f46e5"></i>
+                    School Fees Breakdown by Class
+                </h6>
+                @if (Model.ClassFeeBreakdown?.Any() == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Students</th>
+                                    <th>Fees Paid</th>
+                                    <th>Balance</th>
+                                    <th style="min-width:140px">Collection Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var row in Model.ClassFeeBreakdown ?? new List<ClassFeeBreakdownDto>())
+                                {
+                                    var expected = row.TotalPaid + (row.TotalBalance < 0 ? Math.Abs(row.TotalBalance) : 0);
+                                    var pct      = expected > 0 ? (int)((row.TotalPaid / expected) * 100) : 0;
+                                    var barColor = pct >= 75 ? "bg-success" : pct >= 40 ? "bg-warning" : "bg-danger";
+                                    <tr>
+                                        <td>
+                                            <span class="badge px-3 py-1 rounded-pill"
+                                                  style="background:rgba(37,99,235,0.1);color:#1d4ed8;font-size:0.8rem">
+                                                @row.ClassName
+                                            </span>
+                                        </td>
+                                        <td class="fw-semibold">@row.StudentCount</td>
+                                        <td class="text-success fw-semibold">₦@row.TotalPaid.ToString("N0")</td>
+                                        <td class="fw-semibold @(row.TotalBalance < 0 ? "text-danger" : "text-success")">
+                                            ₦@row.TotalBalance.ToString("N0")
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <div class="progress flex-grow-1" style="height:7px;border-radius:4px">
+                                                    <div class="progress-bar @barColor" style="width:@pct%"></div>
+                                                </div>
+                                                <small class="text-muted fw-semibold" style="width:32px">@pct%</small>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="table-light fw-bold">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>@(Model.ClassFeeBreakdown?.Sum(c => c.StudentCount) ?? 0)</td>
+                                    <td class="text-success">₦@(Model.ClassFeeBreakdown?.Sum(c => c.TotalPaid).ToString("N0") ?? "0")</td>
+                                    <td>₦@(Model.ClassFeeBreakdown?.Sum(c => c.TotalBalance).ToString("N0") ?? "0")</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center text-muted py-4">No student/class data available.</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+<div class="card border-0 shadow-sm rounded-4">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-semibold mb-0">
+                <i class="fa fa-list-check me-2 text-success"></i>
+                Payment Status Summary
+            </h6>
+            <a asp-controller="Payments" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                View All
+            </a>
+        </div>
+        <div class="row g-3">
+            <div class="col-sm-4">
+                <div class="text-center p-3 rounded-3" style="background:#fef9c3">
+                    <div class="fs-3 fw-bold text-warning">@Model.InitiatedPaymentsCount</div>
+                    <small class="text-muted fw-semibold">Initiated</small>
+                    <div class="small text-muted mt-1">Awaiting approval</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="text-center p-3 rounded-3" style="background:#dcfce7">
+                    <div class="fs-3 fw-bold text-success">@Model.ApprovedPaymentsCount</div>
+                    <small class="text-muted fw-semibold">Approved</small>
+                    <div class="small text-muted mt-1">Confirmed & processed</div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="text-center p-3 rounded-3" style="background:#dbeafe">
+                    <div class="fs-3 fw-bold text-primary">₦@Model.TotalIncome.ToString("N0")</div>
+                    <small class="text-muted fw-semibold">Total Collected</small>
+                    <div class="small text-muted mt-1">Approved payments only</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+// Income vs Expenses bar chart
+new Chart(document.getElementById('financeChart'), {
+    type: 'bar',
+    data: {
+        labels: @Html.Raw(Json.Serialize(chartLabels)),
+        datasets: [
+            {
+                label: 'Income',
+                data: @Html.Raw(Json.Serialize(incomeData)),
+                backgroundColor: 'rgba(34,197,94,0.75)',
+                borderRadius: 5, borderSkipped: false
+            },
+            {
+                label: 'Expenses',
+                data: @Html.Raw(Json.Serialize(expenseData)),
+                backgroundColor: 'rgba(239,68,68,0.75)',
+                borderRadius: 5, borderSkipped: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } }, tooltip: { mode: 'index', intersect: false } },
+        scales: {
+            y: { beginAtZero: true, ticks: { callback: v => '₦' + v.toLocaleString() }, grid: { color: 'rgba(0,0,0,0.04)' } },
+            x: { grid: { display: false } }
+        }
+    }
+});
+
+@if (Model.ExpenseByCategory!.Any())
+{
+    <text>
+    const pieColors = ['#3b82f6','#ef4444','#f59e0b','#10b981','#8b5cf6','#ec4899','#14b8a6','#f97316','#06b6d4','#84cc16'];
+    new Chart(document.getElementById('expensePieChart'), {
+        type: 'doughnut',
+        data: {
+            labels: @Html.Raw(Json.Serialize(catLabels)),
+            datasets: [{
+                data: @Html.Raw(Json.Serialize(catData)),
+                backgroundColor: pieColors,
+                borderWidth: 2, borderColor: '#fff', hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            cutout: '62%',
+            plugins: {
+                legend: { position: 'bottom', labels: { boxWidth: 12, padding: 14, font: { size: 12 } } },
+                tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ₦' + ctx.parsed.toLocaleString() } }
+            }
+        }
+    });
+    </text>
+}
+</script>
+}

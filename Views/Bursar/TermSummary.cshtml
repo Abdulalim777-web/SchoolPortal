@@ -1,0 +1,191 @@
+@model SchoolPortal.Models.ViewModels.BursarTermSummaryVM
+@using Newtonsoft.Json
+
+@{
+    ViewData["Title"] = "Term Summary";
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="container-fluid mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Term Financial Summary - @Model.TermYear</h2>
+            <hr />
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h6 class="card-title">Total Fees Collected</h6>
+                    <h4>₦@Model.TotalFeesCollected.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h6 class="card-title">Total Expenses</h6>
+                    <h4>₦@Model.TotalExpenses.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h6 class="card-title">Outstanding Balance</h6>
+                    <h4>₦@Model.TotalTermBalance.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h6 class="card-title">Net Position</h6>
+                    <h4>₦@((Model.TotalFeesCollected - Model.TotalExpenses).ToString("N2"))</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Expenses by Category</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="expenseChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h6>Fees vs Expenses</h6>
+                </div>
+                <div class="card-body">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fees Breakdown by Class -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h6>School Fees Breakdown by Class</h6>
+                </div>
+                <div class="card-body">
+                    @if (Model.FeeBreakdownByClass?.Any() == true)
+                    {
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Class</th>
+                                    <th>Students</th>
+                                    <th>Expected Fees</th>
+                                    <th>Paid</th>
+                                    <th>Outstanding</th>
+                                    <th>Collection %</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var breakdown in Model.FeeBreakdownByClass.OrderBy(f => f.ClassName))
+                                {
+                                    var collection = breakdown.TotalExpected > 0 
+                                        ? ((breakdown.TotalPaid / breakdown.TotalExpected) * 100) 
+                                        : 0;
+                                    
+                                    <tr>
+                                        <td><strong>@breakdown.ClassName</strong></td>
+                                        <td>@breakdown.StudentCount</td>
+                                        <td>₦@breakdown.TotalExpected.ToString("N2")</td>
+                                        <td>
+                                            <span class="badge bg-success">₦@breakdown.TotalPaid.ToString("N2")</span>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-warning">₦@breakdown.OutstandingBalance.ToString("N2")</span>
+                                        </td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width: @collection%">@collection.ToString("F1")%</div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">No fee data available for this term.</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Expense Chart
+            var expenseLabels = @Html.Raw(JsonConvert.SerializeObject(Model.ExpensesByCategory?.Select(e => e.Category ?? "").ToList() ?? new List<string>()));
+            var expenseData = @Html.Raw(JsonConvert.SerializeObject(Model.ExpensesByCategory?.Select(e => e.Amount).ToList() ?? new List<decimal>()));
+            
+            if (expenseLabels.length > 0) {
+                var expenseCtx = document.getElementById('expenseChart');
+                if (expenseCtx) {
+                    new Chart(expenseCtx.getContext('2d'), {
+                        type: 'doughnut',
+                        data: {
+                            labels: expenseLabels,
+                            datasets: [{
+                                data: expenseData,
+                                backgroundColor: [
+                                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+                                    '#FF9F40', '#FF6384', '#C9CBCF', '#4BC0C0', '#FF6384'
+                                ]
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: { position: 'bottom' }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // Comparison Chart
+            var comparisonCtx = document.getElementById('comparisonChart');
+            if (comparisonCtx) {
+                new Chart(comparisonCtx.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Income', 'Expenses'],
+                        datasets: [{
+                            label: 'Amount (₦)',
+                            data: [@Model.TotalFeesCollected, @Model.TotalExpenses],
+                            backgroundColor: ['#28a745', '#dc3545']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+}

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\PROJECT\\SchoolPortal\\SchoolPortal.csproj": {}
+    "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\SchoolPortal.csproj": {}
   },
   "projects": {
-    "D:\\PROJECT\\SchoolPortal\\SchoolPortal.csproj": {
+    "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\SchoolPortal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\PROJECT\\SchoolPortal\\SchoolPortal.csproj",
+        "projectUniqueName": "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\SchoolPortal.csproj",
         "projectName": "SchoolPortal",
-        "projectPath": "D:\\PROJECT\\SchoolPortal\\SchoolPortal.csproj",
+        "projectPath": "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\SchoolPortal.csproj",
         "packagesPath": "C:\\Users\\T14\\.nuget\\packages\\",
-        "outputPath": "D:\\PROJECT\\SchoolPortal\\obj\\",
+        "outputPath": "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
