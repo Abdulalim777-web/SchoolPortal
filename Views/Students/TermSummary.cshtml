@@ -1,0 +1,127 @@
+@model SchoolPortal.Models.ViewModels.StudentTermSummaryVM
+
+@{
+    ViewData["Title"] = "Term Summary";
+}
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>@Model.FullName - @Model.Class</h2>
+            <hr />
+        </div>
+    </div>
+
+    <!-- Key Metrics -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h6 class="card-title">Amount Paid (Term)</h6>
+                    <h4>₦@Model.AmountPaid.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h6 class="card-title">Current Balance</h6>
+                    <h4>₦@Model.CurrentBalance.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info">
+                <div class="card-body">
+                    <h6 class="card-title">Term Fees Total</h6>
+                    <h4>₦@Model.TermFeesTotal.ToString("N2")</h4>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h6 class="card-title">Payment Count</h6>
+                    <h4>@Model.PaymentHistory?.Count ?? 0</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Breakdown by Purpose -->
+    @if (Model.BreakdownByPurpose?.Any() == true)
+    {
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h5>Payment Breakdown</h5>
+                <table class="table table-sm table-striped">
+                    <thead>
+                        <tr>
+                            <th>Purpose</th>
+                            <th>Total Amount</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.BreakdownByPurpose)
+                        {
+                            <tr>
+                                <td>@item.Purpose</td>
+                                <td>₦@item.TotalAmount.ToString("N2")</td>
+                                <td>@item.Count</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+
+    <!-- Payment History -->
+    <div class="row">
+        <div class="col-md-12">
+            <h5>Payment History</h5>
+            @if (Model.PaymentHistory?.Any() == true)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Purpose</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var payment in Model.PaymentHistory)
+                        {
+                            <tr>
+                                <td>@payment.DatePaid.ToString("dd MMM yyyy")</td>
+                                <td>₦@payment.Amount.ToString("N2")</td>
+                                <td>@payment.Purpose</td>
+                                <td>
+                                    @if (payment.Status == SchoolPortal.Models.PaymentStatus.Approved)
+                                    {
+                                        <span class="badge bg-success">Approved</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">Pending</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="alert alert-info">No payments recorded yet.</div>
+            }
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="@Url.Action("Details", new { id = Model.StudentId })" class="btn btn-secondary">Back</a>
+    </div>
+</div>

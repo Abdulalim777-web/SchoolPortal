@@ -17,207 +17,223 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SchoolPortal
 build_property.RootNamespace = SchoolPortal
-build_property.ProjectDir = D:\PROJECT\SchoolPortal\
+build_property.ProjectDir = D:\PROJECT\SchoolPortal\SchoolPortal\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\PROJECT\SchoolPortal
+build_property.MSBuildProjectDirectory = D:\PROJECT\SchoolPortal\SchoolPortal
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/AccessDenied.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/Login.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/ExternalLoginConfirmation.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxFeHRlcm5hbExvZ2luQ29uZmlybWF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/Logout.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/Profile.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/Profile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/Register.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Account/_ViewImports.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/AdminAudit/LoginAttempts.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/AdminAudit/LoginAttempts.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5BdWRpdFxMb2dpbkF0dGVtcHRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/AdminUsers/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/AdminUsers/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Vc2Vyc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/AdminUsers/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/AdminUsers/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5Vc2Vyc1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Bursar/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Bursar/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVyc2FyXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/Admin.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Bursar/TermSummary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQnVyc2FyXFRlcm1TdW1tYXJ5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/Admin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEFkbWluLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/Bursar.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/Bursar.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEJ1cnNhci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/Student.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/Student.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFN0dWRlbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/Teacher.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/Teacher.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXFRlYWNoZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Dashboard/_DashboardStats.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Dashboard/_DashboardStats.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGFzaGJvYXJkXF9EYXNoYm9hcmRTdGF0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Expenses/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Expenses/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Expenses/Delete.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Expenses/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Expenses/Details.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Expenses/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Expenses/Edit.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Expenses/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Expenses/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Expenses/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhwZW5zZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Home/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Home/Privacy.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Payments/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Payments/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Payments/Delete.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Payments/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Payments/Details.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Payments/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Payments/Edit.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Payments/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Payments/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Payments/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF5bWVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Salaries/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Salaries/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsYXJpZXNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Salaries/Delete.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Salaries/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsYXJpZXNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Salaries/Details.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Salaries/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsYXJpZXNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Salaries/Edit.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Salaries/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsYXJpZXNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Salaries/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Salaries/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2FsYXJpZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Shared/Error.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Shared/_LoginPartial.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Staff/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Staff/Delete.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Staff/Details.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Staff/Edit.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Staff/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Students/Create.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Staff/SalarySummary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3RhZmZcU2FsYXJ5U3VtbWFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Students/Delete.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/Delete.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRGVsZXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Students/Details.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Students/Edit.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/Edit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Students/Index.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/_ViewImports.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Students/TermSummary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU3R1ZGVudHNcVGVybVN1bW1hcnkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/_ViewStart.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/PROJECT/SchoolPortal/Views/Shared/_Layout.cshtml]
+[D:/PROJECT/SchoolPortal/SchoolPortal/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-e74vzi8ogr

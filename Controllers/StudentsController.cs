@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
+using SchoolPortal.Services;
 
 namespace SchoolPortal.Controllers
 {
@@ -15,10 +16,12 @@ namespace SchoolPortal.Controllers
     public class StudentsController : Controller
     {
         private readonly SchoolPortalDbContext _context;
+        private readonly StudentService _studentService;
 
-        public StudentsController(SchoolPortalDbContext context)
+        public StudentsController(SchoolPortalDbContext context, StudentService studentService)
         {
             _context = context;
+            _studentService = studentService;
         }
 
         // GET: Students
@@ -160,6 +163,20 @@ namespace SchoolPortal.Controllers
         private bool StudentExists(int id)
         {
             return _context.Students.Any(e => e.Id == id);
+        }
+
+        // GET: Students/TermSummary/5
+        [Authorize(Roles = "Admin,Bursar,Teacher,Student")]
+        public async Task<IActionResult> TermSummary(int? id)
+        {
+            if (id == null)
+                return NotFound();
+
+            var summary = await _studentService.GetTermSummaryAsync(id.Value);
+            if (summary == null)
+                return NotFound();
+
+            return View(summary);
         }
     }
 }

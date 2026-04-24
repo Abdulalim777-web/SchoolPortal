@@ -1,53 +1,85 @@
 @model SchoolPortal.Models.Staff
-
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Add Staff";
 }
 
-<h1>Create</h1>
-
-<h4>Staff</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FullName" class="control-label"></label>
-                <input asp-for="FullName" class="form-control" />
-                <span asp-validation-for="FullName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Position" class="control-label"></label>
-                <input asp-for="Position" class="form-control" />
-                <span asp-validation-for="Position" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateJoined" class="control-label"></label>
-                <input asp-for="DateJoined" class="form-control" />
-                <span asp-validation-for="DateJoined" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="d-flex align-items-center gap-2 mb-4">
+    <a asp-action="Index" class="btn btn-outline-secondary btn-sm">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <div>
+        <h4 class="fw-bold mb-0">Add Staff Member</h4>
+        <small class="text-muted">Fill in the details below</small>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger py-2 small mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-user text-muted"></i></span>
+                            <input asp-for="FullName" class="form-control" placeholder="Full name" />
+                        </div>
+                        <span asp-validation-for="FullName" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Position" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-briefcase text-muted"></i></span>
+                            <input asp-for="Position" class="form-control" placeholder="e.g. Class Teacher" />
+                        </div>
+                        <span asp-validation-for="Position" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DateJoined" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-calendar text-muted"></i></span>
+                            <input asp-for="DateJoined" class="form-control" type="date" />
+                        </div>
+                        <span asp-validation-for="DateJoined" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-envelope text-muted"></i></span>
+                            <input asp-for="Email" class="form-control" placeholder="email@example.com" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="PhoneNumber" class="form-label fw-semibold"></label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-white"><i class="fa fa-phone text-muted"></i></span>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="+234..." />
+                        </div>
+                        <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                    </div>
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save me-1"></i> Save Staff
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

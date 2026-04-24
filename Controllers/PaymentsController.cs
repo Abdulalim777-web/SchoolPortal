@@ -188,7 +188,7 @@ namespace SchoolPortal.Controllers
                 Type = TransactionType.Debit,
                 Amount = payment.Amount,
                 BalanceAfter = student.Balance,
-                Description = $"Payment approved by bursar – {payment.Purpose ?? "N/A"}",
+                Description = $"Payment approved by bursar – {(payment.Purpose?.ToString() ?? "N/A")}",
                 PerformedByUserId = bursar.Id,
                 CreatedAt = DateTime.UtcNow
             };

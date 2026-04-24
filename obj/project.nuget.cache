@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Qkc1An3W93E=",
+  "dgSpecHash": "mJeh51LY7Q0=",
   "success": true,
-  "projectFilePath": "D:\\PROJECT\\SchoolPortal\\SchoolPortal.csproj",
+  "projectFilePath": "D:\\PROJECT\\SchoolPortal\\SchoolPortal\\SchoolPortal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\T14\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\T14\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

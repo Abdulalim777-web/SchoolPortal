@@ -30,7 +30,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="Purpose" class="control-label"></label>
-                <input asp-for="Purpose" class="form-control" />
+                <select asp-for="Purpose" class="form-control">
+                    <option value="">– Select purpose –</option>
+                    <option value="1">School Fees</option>
+                    <option value="2">Donations</option>
+                    <option value="3">PTA Levy</option>
+                    <option value="4">Other</option>
+                </select>
                 <span asp-validation-for="Purpose" class="text-danger"></span>
             </div>
             <div class="form-group">

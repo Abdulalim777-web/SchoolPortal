@@ -1,10 +1,233 @@
 @model DashboardViewModel
 @{
     ViewData["Title"] = "Teacher Dashboard";
+    var salaryLabels = Model.SalaryHistory?.Select(s => s.Month ?? "").ToList() ?? new List<string>();
+    var salaryData   = Model.SalaryHistory?.Select(s => (double)s.Amount).ToList() ?? new List<double>();
+    var paidFlags    = Model.SalaryHistory?.Select(s => s.IsPaid).ToList() ?? new List<bool>();
 }
 
-<h2>Teacher Dashboard</h2>
+{{-- ── PAGE HEADER ── --}}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0">Teacher Dashboard</h4>
+        <small class="text-muted">
+            <strong>@Model.TeacherName</strong>
+            @if (!string.IsNullOrEmpty(Model.TeacherPosition) && Model.TeacherPosition != "Staff record not linked")
+            {
+                <span class="badge ms-2 px-2 py-1 rounded-pill"
+                      style="background:rgba(20,184,166,0.1);color:#0d9488;font-size:0.72rem">
+                    @Model.TeacherPosition
+                </span>
+            }
+        </small>
+    </div>
+    <span class="badge bg-light text-muted border px-3 py-2">@DateTime.Now.Year</span>
+</div>
 
-<partial name="_DashboardStats" />
+{{-- ── STAFF NOT LINKED WARNING ── --}}
+@if (Model.TeacherPosition == "Staff record not linked")
+{
+    <div class="alert alert-warning d-flex align-items-center gap-2 rounded-4 mb-4 border-0 shadow-sm">
+        <i class="fa fa-triangle-exclamation fa-lg flex-shrink-0"></i>
+        <div>
+            Your login account is not linked to a staff record. Contact the admin to link your account so salary information can be displayed.
+        </div>
+    </div>
+}
 
-<a class="btn btn-info rounded-pill" href="/Students">View Students</a>
+{{-- ── KPI CARDS ── --}}
+<div class="row g-3 mb-4">
+    <div class="col-sm-4">
+        <div class="dash-card dash-card-green">
+            <div class="dash-card-icon"><i class="fa fa-money-bill-wave"></i></div>
+            <div>
+                <div class="dash-card-label">Salary Received</div>
+                <div class="dash-card-value">₦@Model.TeacherTotalSalaryPaid.ToString("N0")</div>
+                <div class="dash-card-sub">Paid — @DateTime.Now.Year</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="dash-card @(Model.TeacherPendingSalary > 0 ? "dash-card-orange" : "dash-card-teal")">
+            <div class="dash-card-icon"><i class="fa fa-hourglass-half"></i></div>
+            <div>
+                <div class="dash-card-label">Pending Salary</div>
+                <div class="dash-card-value">₦@Model.TeacherPendingSalary.ToString("N0")</div>
+                <div class="dash-card-sub">@(Model.TeacherPendingSalary > 0 ? "Awaiting payment" : "All clear")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="dash-card dash-card-blue">
+            <div class="dash-card-icon"><i class="fa fa-calendar-check"></i></div>
+            <div>
+                <div class="dash-card-label">Months Paid</div>
+                <div class="dash-card-value">
+                    @(Model.SalaryHistory?.Count(s => s.IsPaid) ?? 0)
+                    <span class="dash-card-sub" style="font-size:1rem">/ @(Model.SalaryHistory?.Count ?? 0)</span>
+                </div>
+                <div class="dash-card-sub">This year</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.TeacherPendingSalary > 0)
+{
+    <div class="alert alert-warning d-flex align-items-start gap-3 rounded-4 mb-4 border-0 shadow-sm">
+        <div style="width:38px;height:38px;border-radius:10px;background:rgba(245,158,11,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="fa fa-info-circle text-warning"></i>
+        </div>
+        <div>
+            <div class="fw-semibold">Pending Salary</div>
+            <div class="small">
+                You have <strong>₦@Model.TeacherPendingSalary.ToString("N0")</strong> in unpaid salary.
+                Please contact the bursar for clarification.
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row g-3">
+
+    {{-- ── SALARY TABLE ── --}}
+    <div class="col-lg-7">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-table me-2 text-primary"></i>
+                    Salary History — @DateTime.Now.Year
+                </h6>
+                @if (Model.SalaryHistory?.Any() == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var s in Model.SalaryHistory)
+                                {
+                                    <tr>
+                                        <td class="fw-semibold">@s.Month</td>
+                                        <td>₦@s.Amount.ToString("N0")</td>
+                                        <td>
+                                            @if (s.IsPaid)
+                                            {
+                                                <span class="badge bg-success rounded-pill">
+                                                    <i class="fa fa-check me-1"></i>Paid
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark rounded-pill">
+                                                    <i class="fa fa-clock me-1"></i>Pending
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot class="table-light fw-bold">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>₦@Model.SalaryHistory.Sum(s => s.Amount).ToString("N0")</td>
+                                    <td></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="fa fa-file-alt fa-2x mb-2 d-block opacity-25"></i>
+                        No salary records for @DateTime.Now.Year.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    {{-- ── CHART + PROFILE ── --}}
+    <div class="col-lg-5">
+
+        @if (Model.SalaryHistory!.Any())
+        {
+            <div class="card border-0 shadow-sm rounded-4 mb-3">
+                <div class="card-body p-4">
+                    <h6 class="fw-semibold mb-3">
+                        <i class="fa fa-chart-bar me-2 text-teal" style="color:#0d9488"></i>
+                        Monthly Salary
+                    </h6>
+                    <canvas id="salaryChart" height="180"></canvas>
+                </div>
+            </div>
+        }
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-id-card me-2" style="color:#4f46e5"></i>
+                    Staff Profile
+                </h6>
+                <ul class="list-unstyled mb-3">
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Name</span>
+                        <span class="fw-semibold small">@Model.TeacherName</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Position</span>
+                        <span class="fw-semibold small">@(Model.TeacherPosition ?? "—")</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Year</span>
+                        <span class="fw-semibold small">@DateTime.Now.Year</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2">
+                        <span class="text-muted small">Total Paid</span>
+                        <span class="fw-semibold small text-success">₦@Model.TeacherTotalSalaryPaid.ToString("N0")</span>
+                    </li>
+                </ul>
+                <a asp-controller="Students" asp-action="Index" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="fa fa-user-graduate me-1"></i> View Students
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+@if (Model.SalaryHistory.Any())
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const paidFlags = @Html.Raw(Json.Serialize(paidFlags));
+    new Chart(document.getElementById('salaryChart'), {
+        type: 'bar',
+        data: {
+            labels: @Html.Raw(Json.Serialize(salaryLabels)),
+            datasets: [{
+                label: 'Salary (₦)',
+                data: @Html.Raw(Json.Serialize(salaryData)),
+                backgroundColor: paidFlags.map(p => p ? 'rgba(34,197,94,0.75)' : 'rgba(251,191,36,0.75)'),
+                borderRadius: 6, borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                y: { beginAtZero: true, ticks: { callback: v => '₦' + v.toLocaleString() }, grid: { color: 'rgba(0,0,0,0.04)' } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+    </script>
+}
+}

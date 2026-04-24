@@ -1,10 +1,209 @@
+@using SchoolPortal.Models
 @model DashboardViewModel
 @{
-    ViewData["Title"] = "Student Dashboard";
+    ViewData["Title"] = "My Dashboard";
 }
 
-<h2>Student Dashboard</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-0">My Dashboard</h4>
+        <small class="text-muted">
+            Welcome back, <strong>@Model.StudentName</strong>
+            @if (!string.IsNullOrEmpty(Model.StudentClass))
+            {
+                <span class="badge ms-2 px-2 py-1 rounded-pill"
+                      style="background:rgba(99,102,241,0.1);color:#4f46e5;font-size:0.72rem">
+                    @Model.StudentClass
+                </span>
+            }
+        </small>
+    </div>
+    <a asp-controller="Payments" asp-action="Create" class="btn btn-primary btn-sm">
+        <i class="fa fa-upload me-1"></i> Make Payment
+    </a>
+</div>
 
-<partial name="_DashboardStats" />
 
-<a class="btn btn-primary rounded-pill" href="/Payments">My Payments</a>
+<div class="row g-3 mb-4">
+    <div class="col-sm-4">
+        <div class="dash-card dash-card-green">
+            <div class="dash-card-icon"><i class="fa fa-circle-check"></i></div>
+            <div>
+                <div class="dash-card-label">Paid This Term</div>
+                <div class="dash-card-value">₦@Model.StudentTotalPaid.ToString("N0")</div>
+                <div class="dash-card-sub">Approved payments</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="dash-card @(Model.StudentBalance < 0 ? "dash-card-red" : "dash-card-blue")">
+            <div class="dash-card-icon"><i class="fa fa-wallet"></i></div>
+            <div>
+                <div class="dash-card-label">Account Balance</div>
+                <div class="dash-card-value">₦@Model.StudentBalance.ToString("N0")</div>
+                <div class="dash-card-sub">@(Model.StudentBalance < 0 ? "Outstanding debt" : "Current balance")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="dash-card dash-card-indigo">
+            <div class="dash-card-icon"><i class="fa fa-list-alt"></i></div>
+            <div>
+                <div class="dash-card-label">Total Payments</div>
+                <div class="dash-card-value">@(Model.StudentPayments?.Count ?? 0)</div>
+                <div class="dash-card-sub">All time submissions</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.StudentBalance < 0)
+{
+    <div class="alert alert-danger d-flex align-items-start gap-3 rounded-4 mb-4 border-0 shadow-sm">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(239,68,68,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+            <i class="fa fa-exclamation-triangle text-danger"></i>
+        </div>
+        <div>
+            <div class="fw-semibold">Outstanding Balance</div>
+            <div class="small">
+                You have an outstanding balance of
+                <strong>₦@Math.Abs(Model.StudentBalance).ToString("N0")</strong>.
+                Please make a payment to clear your account.
+            </div>
+            <a asp-controller="Payments" asp-action="Create" class="btn btn-danger btn-sm mt-2">
+                <i class="fa fa-upload me-1"></i> Pay Now
+            </a>
+        </div>
+    </div>
+}
+
+<div class="row g-3">
+
+    
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h6 class="fw-semibold mb-0">
+                        <i class="fa fa-history me-2 text-primary"></i>Payment History
+                    </h6>
+                    <a asp-controller="Payments" asp-action="Index"
+                       class="btn btn-outline-primary btn-sm">View All</a>
+                </div>
+
+                @if (Model.StudentPayments?.Any() == true)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Purpose</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var p in Model.StudentPayments.Take(8))
+                                {
+                                    <tr>
+                                        <td class="small text-muted">@p.DatePaid.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            <span class="fw-semibold small">@p.Purpose?.ToString() ?? "—"</span>
+                                        </td>
+                                        <td class="fw-semibold">₦@p.Amount.ToString("N0")</td>
+                                        <td>
+                                            @if (p.Status == PaymentStatus.Approved)
+                                            {
+                                                <span class="badge bg-success rounded-pill">
+                                                    <i class="fa fa-check me-1"></i>Approved
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-warning text-dark rounded-pill">
+                                                    <i class="fa fa-clock me-1"></i>Initiated
+                                                </span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 text-muted">
+                        <i class="fa fa-file-invoice fa-2x mb-2 d-block opacity-25"></i>
+                        No payments yet.
+                        <a asp-controller="Payments" asp-action="Create">Make your first payment.</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="col-lg-4">
+
+    
+        <div class="card border-0 shadow-sm rounded-4 mb-3">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-clipboard-list me-2 text-indigo" style="color:#4f46e5"></i>
+                    Term Summary
+                </h6>
+                <ul class="list-unstyled mb-0">
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Name</span>
+                        <span class="fw-semibold small">@Model.StudentName</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Class</span>
+                        <span class="fw-semibold small">@(Model.StudentClass ?? "—")</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Term Year</span>
+                        <span class="fw-semibold small">@DateTime.Now.Year</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2 border-bottom">
+                        <span class="text-muted small">Amount Paid</span>
+                        <span class="fw-semibold small text-success">₦@Model.StudentTotalPaid.ToString("N0")</span>
+                    </li>
+                    <li class="d-flex justify-content-between py-2">
+                        <span class="text-muted small">Balance</span>
+                        <span class="fw-semibold small @(Model.StudentBalance < 0 ? "text-danger" : "text-success")">
+                            ₦@Model.StudentBalance.ToString("N0")
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4">
+                <h6 class="fw-semibold mb-3">
+                    <i class="fa fa-bolt me-2 text-warning"></i>Quick Actions
+                </h6>
+                <div class="d-grid gap-2">
+                    <a asp-controller="Payments" asp-action="Create"
+                       class="btn btn-primary btn-sm">
+                        <i class="fa fa-upload me-1"></i> Upload Payment Receipt
+                    </a>
+                    <a asp-controller="Payments" asp-action="Index"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-history me-1"></i> Full Payment History
+                    </a>
+                    <a asp-controller="Account" asp-action="Profile"
+                       class="btn btn-outline-secondary btn-sm">
+                        <i class="fa fa-user me-1"></i> My Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

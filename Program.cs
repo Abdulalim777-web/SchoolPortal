@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
+using SchoolPortal.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,11 @@ if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(goo
             options.Scope.Add("email");
         });
 }
+
+// ===================== SERVICES =====================
+builder.Services.AddScoped<StudentService>();
+builder.Services.AddScoped<StaffService>();
+builder.Services.AddScoped<BursarService>();
 
 // ===================== MVC =====================
 builder.Services.AddControllersWithViews();
