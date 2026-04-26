@@ -4,10 +4,10 @@
     ViewData["Title"] = "Payments";
     var isBursarOrAdmin = User.IsInRole("Bursar") || User.IsInRole("Admin");
 }
+<h1 class="mb-0">Payments</h1>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">Payments</h4>
-    <a asp-action="Create" class="btn btn-primary btn-sm">
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary btn-lg">
         <i class="bi bi-plus-circle me-1"></i> New Payment
     </a>
 </div>
@@ -34,6 +34,7 @@
             <tr>
 
                 <th>Admission No.</th>
+                <th>Name</th>
                 <th>Amount</th>
                 <th>Purpose</th>
                 <th>Date</th>
@@ -41,7 +42,9 @@
                 <th>Status</th>
                 @if (isBursarOrAdmin)
                 {
+                     
                     <th>Actions</th>
+                     
                 }
             </tr>
         </thead>

@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using SchoolPortal.Data;
 using SchoolPortal.Models;
+using SchoolPortal.Models.Configuration;
 using SchoolPortal.Services;
 
 namespace SchoolPortal.Controllers
 {
+    
     [Authorize(Roles = "Admin,Bursar,Teacher,Student")]
     public class StudentsController : Controller
     {
@@ -61,10 +63,13 @@ namespace SchoolPortal.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin,Bursar")]
-        public async Task<IActionResult> Create([Bind("Id,FullName,Class,Balance")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,FullName,Class")] Student student)
         {
             if (ModelState.IsValid)
             {
+                // Set balance based on class configuration
+                student.Balance = ClassBalanceConfiguration.GetBalanceForClass(student.Class);
+                
                 _context.Add(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -38,6 +38,9 @@ namespace SchoolPortal.Models
         public PaymentPurpose? Purpose { get; set; }
 
         [StringLength(50)]
+        public string? Term { get; set; } // e.g., "Term 1", "Term 2", "Term 3"
+
+        [StringLength(50)]
         public string? RrrNumber { get; set; }
 
         // Who submitted this payment

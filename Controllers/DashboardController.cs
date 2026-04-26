@@ -48,7 +48,10 @@ namespace SchoolPortal.Controllers
                 .Where(p => p.Status == PaymentStatus.Approved)
                 .SumAsync(p => p.Amount);
             
-            model.TotalExpenses = await _context.Expenses.SumAsync(e => e.Amount);
+            // Calculate total expenses: Expenses + Salaries
+            var expenseAmount = await _context.Expenses.SumAsync(e => e.Amount);
+            var salariesAmount = await _context.Salaries.SumAsync(s => s.Amount);
+            model.TotalExpenses = expenseAmount + salariesAmount;
             model.Balance = model.TotalIncome - model.TotalExpenses;
 
             int year = DateTime.Now.Year;
@@ -76,14 +79,41 @@ namespace SchoolPortal.Controllers
                 })
                 .ToListAsync();
 
+            var monthlySalaries = await _context.Salaries
+                .Where(s => s.Month.Year == year)
+                .GroupBy(s => s.Month.Month)
+                .Select(g => new { Month = g.Key, TotalAmount = g.Sum(x => x.Amount) })
+                .ToListAsync();
+
+            // Combine expenses and salaries into monthly expenses
+            var combinedExpenses = new Dictionary<int, decimal>();
+            foreach (var expense in expenses)
+            {
+                if (combinedExpenses.ContainsKey(expense.Month))
+                    combinedExpenses[expense.Month] += expense.TotalExpense;
+                else
+                    combinedExpenses[expense.Month] = expense.TotalExpense;
+            }
+            foreach (var salary in monthlySalaries)
+            {
+                if (combinedExpenses.ContainsKey(salary.Month))
+                    combinedExpenses[salary.Month] += salary.TotalAmount;
+                else
+                    combinedExpenses[salary.Month] = salary.TotalAmount;
+            }
+
             model.MonthlyIncome = months
                 .Select(m => income.FirstOrDefault(x => x.Month == m)
                     ?? new MonthlyIncomeDto { Year = year, Month = m, TotalIncome = 0 })
                 .ToList();
 
             model.MonthlyExpenses = months
-                .Select(m => expenses.FirstOrDefault(x => x.Month == m)
-                    ?? new MonthlyExpenseDto { Year = year, Month = m, TotalExpense = 0 })
+                .Select(m => new MonthlyExpenseDto
+                {
+                    Year = year,
+                    Month = m,
+                    TotalExpense = combinedExpenses.ContainsKey(m) ? combinedExpenses[m] : 0
+                })
                 .ToList();
 
             // Admin Dashboard Data

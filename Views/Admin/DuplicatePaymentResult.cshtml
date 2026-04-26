@@ -1,0 +1,84 @@
+@using SchoolPortal.Services
+@model DuplicatePaymentCheckResult
+
+@{
+    ViewData["Title"] = "Duplicate Payment Check Result";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header @(Model.IsDuplicate ? "bg-danger" : "bg-success") text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">
+                        @if (Model.IsDuplicate)
+                        {
+                            <span><i class="bi bi-exclamation-triangle"></i> Duplicate Payment Detected</span>
+                        }
+                        else
+                        {
+                            <span><i class="bi bi-check-circle"></i> No Duplicate Found</span>
+                        }
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Student ID:</strong></label>
+                        <p class="form-text">@Model.StudentId</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Payment Purpose:</strong></label>
+                        <p class="form-text">@Model.Purpose</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Term:</strong></label>
+                        <p class="form-text">@(Model.Term ?? "Not specified")</p>
+                    </div>
+
+                    <hr />
+
+                    @if (Model.IsDuplicate)
+                    {
+                        <div class="alert alert-danger">
+                            <h5>⚠️ Duplicate Payment Exists</h5>
+                            <p>A payment with the same student, purpose, and term has already been recorded.</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Existing Payment ID:</strong></label>
+                            <p class="form-text">@Model.ExistingPaymentId</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Payment Date:</strong></label>
+                            <p class="form-text">@Model.ExistingPaymentDate?.ToString("dd MMMM yyyy HH:mm")</p>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Amount:</strong></label>
+                            <p class="form-text"><strong>₦@Model.ExistingPaymentAmount?.ToString("N0")</strong></p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-success">
+                            <h5>✓ Safe to Process</h5>
+                            <p>No duplicate payment found for this student, purpose, and term combination. You can proceed with recording the payment.</p>
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 mt-4">
+                        <a href="@Url.Action("CheckDuplicatePayment", "Admin")" class="btn btn-primary">
+                            <i class="bi bi-arrow-left"></i> Check Another
+                        </a>
+                        <a href="@Url.Action("Index", "Payments")" class="btn btn-secondary">
+                            <i class="bi bi-receipt"></i> Go to Payments
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

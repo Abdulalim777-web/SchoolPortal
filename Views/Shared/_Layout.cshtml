@@ -16,39 +16,39 @@
 @{
     string IsActive(string controller) =>
         ViewContext.RouteData.Values["controller"]?.ToString() == controller ? "active" : "";
-
-    bool isAuthPage =
-        ViewContext.RouteData.Values["controller"]?.ToString() is "Account";
 }
 
-<!-- ══════════════════════════════════════════
-     TOP NAVBAR
-═══════════════════════════════════════════ -->
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> UserManager
+
+<!-- ══ TOP NAVBAR ════════════════════════════════════════ -->
 <header class="sp-navbar">
-    <nav class="navbar navbar-expand-lg navbar-dark px-3">
+    <nav class="navbar navbar-expand-lg px-3">
         <div class="container-fluid">
 
-            <!-- Hamburger (mobile) -->
-            <button class="btn sp-hamburger d-md-none me-2"
-                    id="sidebarToggle"
-                    title="Toggle navigation">
-                <i class="fa fa-bars"></i>
-            </button>
+            <div class="d-flex align-items-center gap-2">
+                <!-- Collapse button — desktop only -->
+                <button class="btn sp-collapse-btn d-none d-md-flex" id="sidebarCollapseBtn"
+                        title="Collapse sidebar">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <!-- Hamburger — mobile only -->
+                <button class="btn sp-hamburger d-md-none" id="sidebarToggle">
+                    <i class="fa fa-bars"></i>
+                </button>
+            </div>
 
-            <!-- Brand -->
-            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-                <i class="fa fa-school me-2"></i>SchoolPortal
+            <a class="navbar-brand fw-bold ms-2" asp-controller="Home" asp-action="Index">
+                <i class="fa fa-school me-2 text-primary"></i>
+                <span class="text-dark">School</span><span class="text-primary fw-black">Portal</span>
             </a>
 
-            <!-- Right: user dropdown -->
             <ul class="navbar-nav ms-auto d-flex align-items-center gap-2">
                 @if (!User.Identity!.IsAuthenticated)
                 {
-                    <a href="/Account/Register" class="btn btn-light btn-sm fw-semibold">Enroll Now</a>
+                    <a href="/Account/Register" class="btn btn-primary btn-sm fw-semibold">Enroll Now</a>
                 }
 
-                @using Microsoft.AspNetCore.Identity
-                @inject UserManager<User> UserManager
                 @if (User.Identity?.IsAuthenticated == true)
                 {
                     var currentUser = await UserManager.GetUserAsync(User);
@@ -61,21 +61,31 @@
                                 @(currentUser!.FullName?.Substring(0, 1).ToUpper() ?? "U")
                             </div>
                             <div class="text-start d-none d-lg-block">
-                                <div class="fw-semibold small lh-sm">@currentUser!.FullName</div>
-                                <div class="text-white-50" style="font-size:0.72rem">@roles.FirstOrDefault()</div>
+                                <div class="fw-semibold small lh-sm text-dark">@currentUser!.FullName</div>
+                                <div class="text-muted" style="font-size:0.72rem">@roles.FirstOrDefault()</div>
                             </div>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0 rounded-3 py-1">
+                            <li class="px-3 py-2 border-bottom">
+                                <div class="fw-semibold small text-dark">@currentUser!.FullName</div>
+                                <div class="text-muted" style="font-size:0.72rem">@currentUser!.Email</div>
+                            </li>
                             <li>
-                                <a class="dropdown-item" asp-controller="Account" asp-action="Profile">
+                                <a class="dropdown-item py-2" asp-controller="Account" asp-action="Profile">
                                     <i class="fa fa-user me-2 text-primary"></i>Profile
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider" /></li>
+                            <li><hr class="dropdown-divider my-1" /></li>
+                            <li>
+                                <a class="dropdown-item py-2 text-warning fw-semibold"
+                                   asp-controller="Account" asp-action="Login">
+                                    <i class="fa fa-right-left me-2"></i>Switch Account
+                                </a>
+                            </li>
                             <li>
                                 <form asp-controller="Account" asp-action="Logout" method="post">
                                     @Html.AntiForgeryToken()
-                                    <button class="dropdown-item text-danger">
+                                    <button class="dropdown-item py-2 text-danger">
                                         <i class="fa fa-sign-out-alt me-2"></i>Logout
                                     </button>
                                 </form>
@@ -87,7 +97,6 @@
         </div>
     </nav>
 
-    <!-- Flash messages -->
     @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show rounded-0 mb-0" role="alert">
@@ -104,22 +113,18 @@
     }
 </header>
 
-<!-- ══════════════════════════════════════════
-     BODY: SIDEBAR + MAIN
-═══════════════════════════════════════════ -->
-<div class="sp-shell">
+<!-- ══ SHELL ═══════════════════════════════════════════════ -->
+<div class="sp-shell" id="spShell">
 
-    <!-- ── SIDEBAR ─────────────────────────── -->
     @if (User.Identity!.IsAuthenticated)
     {
         <aside id="sidebar" class="sp-sidebar d-none d-md-flex">
 
-            <!-- School badge at top -->
             <div class="sp-sidebar-brand">
                 <div class="sp-sidebar-logo">
                     <i class="fa fa-graduation-cap"></i>
                 </div>
-                <div>
+                <div class="sp-sidebar-brand-text">
                     <div class="sp-sidebar-school">SchoolPortal</div>
                     <div class="sp-sidebar-session">2024 / 2025</div>
                 </div>
@@ -127,153 +132,127 @@
 
             <nav class="sp-sidebar-nav">
 
-                <!-- Home – always visible -->
-                <a class="sp-nav-link @IsActive("Home")"
-                   asp-controller="Home" asp-action="Index">
+                <a class="sp-nav-link @IsActive("Home")" asp-controller="Home" asp-action="Index" title="Home">
                     <span class="sp-nav-icon"><i class="fa fa-home"></i></span>
-                    <span>Home</span>
+                    <span class="sp-nav-text">Home</span>
                 </a>
 
                 @if (User.IsInRole("Admin"))
                 {
                     <div class="sp-nav-label">Main</div>
-
-                    <a class="sp-nav-link @IsActive("Dashboard")"
-                       asp-controller="Dashboard" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index" title="Dashboard">
                         <span class="sp-nav-icon"><i class="fa fa-tachometer-alt"></i></span>
-                        <span>Dashboard</span>
+                        <span class="sp-nav-text">Dashboard</span>
                     </a>
-
                     <div class="sp-nav-label">Management</div>
-
-                    <a class="sp-nav-link @IsActive("AdminUsers")"
-                       asp-controller="AdminUsers" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("AdminUsers")" asp-controller="AdminUsers" asp-action="Index" title="Manage Users">
                         <span class="sp-nav-icon"><i class="fa fa-users-cog"></i></span>
-                        <span>Manage Users</span>
+                        <span class="sp-nav-text">Manage Users</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Students")"
-                       asp-controller="Students" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index" title="Students">
                         <span class="sp-nav-icon"><i class="fa fa-user-graduate"></i></span>
-                        <span>Students</span>
+                        <span class="sp-nav-text">Students</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Staff")"
-                       asp-controller="Staff" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Staff")" asp-controller="Staff" asp-action="Index" title="Staff">
                         <span class="sp-nav-icon"><i class="fa fa-chalkboard-teacher"></i></span>
-                        <span>Staff</span>
+                        <span class="sp-nav-text">Staff</span>
                     </a>
-
                     <div class="sp-nav-label">Finance</div>
-
-                    <a class="sp-nav-link @IsActive("Payments")"
-                       asp-controller="Payments" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index" title="Payments">
                         <span class="sp-nav-icon"><i class="fa fa-wallet"></i></span>
-                        <span>Payments</span>
+                        <span class="sp-nav-text">Payments</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Salaries")"
-                       asp-controller="Salaries" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Salaries")" asp-controller="Salaries" asp-action="Index" title="Salaries">
                         <span class="sp-nav-icon"><i class="fa fa-money-bill-wave"></i></span>
-                        <span>Salaries</span>
+                        <span class="sp-nav-text">Salaries</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Expenses")"
-                       asp-controller="Expenses" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Expenses")" asp-controller="Expenses" asp-action="Index" title="Expenses">
                         <span class="sp-nav-icon"><i class="fa fa-file-invoice-dollar"></i></span>
-                        <span>Expenses</span>
+                        <span class="sp-nav-text">Expenses</span>
                     </a>
+                    <div class="sp-nav-label">Operations</div>
+                    <a class="sp-nav-link @IsActive("Admin")" asp-controller="Admin" asp-action="Index" title="Admin Tools">
+                        <span class="sp-nav-icon"><i class="fa fa-tools"></i></span>
+                        <span class="sp-nav-text">Admin Tools</span>
+                    </a>
+                    
 
                     <div class="sp-nav-label">Audit</div>
-
-                    <a class="sp-nav-link @IsActive("AdminAudit")"
-                       asp-controller="AdminAudit" asp-action="LoginAttempts">
+                    <a class="sp-nav-link @IsActive("AdminAudit")" asp-controller="AdminAudit" asp-action="LoginAttempts" title="Login Audit">
                         <span class="sp-nav-icon"><i class="fa fa-history"></i></span>
-                        <span>Login Audit</span>
+                        <span class="sp-nav-text">Login Audit</span>
                     </a>
                 }
 
                 @if (User.IsInRole("Bursar"))
                 {
                     <div class="sp-nav-label">Main</div>
-
-                    <a class="sp-nav-link @IsActive("Dashboard")"
-                       asp-controller="Dashboard" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index" title="Dashboard">
                         <span class="sp-nav-icon"><i class="fa fa-tachometer-alt"></i></span>
-                        <span>Dashboard</span>
+                        <span class="sp-nav-text">Dashboard</span>
                     </a>
-
                     <div class="sp-nav-label">Finance</div>
-
-                    <a class="sp-nav-link @IsActive("Payments")"
-                       asp-controller="Payments" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index" title="Payments">
                         <span class="sp-nav-icon"><i class="fa fa-wallet"></i></span>
-                        <span>Payments</span>
+                        <span class="sp-nav-text">Payments</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Salaries")"
-                       asp-controller="Salaries" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Salaries")" asp-controller="Salaries" asp-action="Index" title="Salaries">
                         <span class="sp-nav-icon"><i class="fa fa-money-bill-wave"></i></span>
-                        <span>Salaries</span>
+                        <span class="sp-nav-text">Salaries</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Expenses")"
-                       asp-controller="Expenses" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Expenses")" asp-controller="Expenses" asp-action="Index" title="Expenses">
                         <span class="sp-nav-icon"><i class="fa fa-file-invoice-dollar"></i></span>
-                        <span>Expenses</span>
+                        <span class="sp-nav-text">Expenses</span>
                     </a>
-
                     <div class="sp-nav-label">People</div>
-
-                    <a class="sp-nav-link @IsActive("Students")"
-                       asp-controller="Students" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index" title="Students">
                         <span class="sp-nav-icon"><i class="fa fa-user-graduate"></i></span>
-                        <span>Students</span>
+                        <span class="sp-nav-text">Students</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Staff")"
-                       asp-controller="Staff" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Staff")" asp-controller="Staff" asp-action="Index" title="Staff">
                         <span class="sp-nav-icon"><i class="fa fa-chalkboard-teacher"></i></span>
-                        <span>Staff</span>
+                        <span class="sp-nav-text">Staff</span>
+                    </a>
+                    <div class="sp-nav-label">Operations</div>
+                    <a class="sp-nav-link @IsActive("Bursar")" asp-controller="Admin" asp-action="Index" title="Admin">
+                        <span class="sp-nav-icon"><i class="fa fa-tools"></i></span>
+                        <span class="sp-nav-text">Admin Tool</span>
                     </a>
                 }
 
                 @if (User.IsInRole("Teacher"))
                 {
                     <div class="sp-nav-label">Main</div>
-
-                    <a class="sp-nav-link @IsActive("Dashboard")"
-                       asp-controller="Dashboard" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index" title="Dashboard">
                         <span class="sp-nav-icon"><i class="fa fa-tachometer-alt"></i></span>
-                        <span>Dashboard</span>
+                        <span class="sp-nav-text">Dashboard</span>
                     </a>
-                    <a class="sp-nav-link @IsActive("Students")"
-                       asp-controller="Students" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Students")" asp-controller="Students" asp-action="Index" title="Students">
                         <span class="sp-nav-icon"><i class="fa fa-user-graduate"></i></span>
-                        <span>Students</span>
+                        <span class="sp-nav-text">Students</span>
                     </a>
                 }
 
                 @if (User.IsInRole("Student"))
                 {
                     <div class="sp-nav-label">Main</div>
-
-                    <a class="sp-nav-link @IsActive("Dashboard")"
-                       asp-controller="Dashboard" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Dashboard")" asp-controller="Dashboard" asp-action="Index" title="Dashboard">
                         <span class="sp-nav-icon"><i class="fa fa-tachometer-alt"></i></span>
-                        <span>Dashboard</span>
+                        <span class="sp-nav-text">Dashboard</span>
                     </a>
-                    
                     <div class="sp-nav-label">My Account</div>
-
-                    <a class="sp-nav-link @IsActive("Payments")"
-                       asp-controller="Payments" asp-action="Index">
+                    <a class="sp-nav-link @IsActive("Payments")" asp-controller="Payments" asp-action="Index" title="My Payments">
                         <span class="sp-nav-icon"><i class="fa fa-file-invoice-dollar"></i></span>
-                        <span>My Payments</span>
+                        <span class="sp-nav-text">My Payments</span>
                     </a>
                 }
 
             </nav>
 
-            <!-- Spacer pushes logout down -->
             <div class="sp-sidebar-spacer"></div>
 
-            <!-- Profile card at bottom -->
             @{
-                var me    = await UserManager.GetUserAsync(User);
+                var me     = await UserManager.GetUserAsync(User);
                 var myRole = (await UserManager.GetRolesAsync(me!)).FirstOrDefault() ?? "User";
             }
             <div class="sp-sidebar-footer">
@@ -286,39 +265,38 @@
                         <div class="sp-sidebar-user-role">@myRole</div>
                     </div>
                 </div>
+
                 <form asp-controller="Account" asp-action="Logout" method="post" class="mt-2">
                     @Html.AntiForgeryToken()
-                    <button class="sp-nav-link danger w-100 border-0 bg-transparent text-start">
+                    <button type="submit" class="sp-nav-link danger w-100 border-0 bg-transparent text-start" title="Logout">
                         <span class="sp-nav-icon"><i class="fa fa-sign-out-alt"></i></span>
-                        <span>Logout</span>
+                        <span class="sp-nav-text">Logout</span>
                     </button>
                 </form>
+
+                <a asp-controller="Account" asp-action="Login"
+                   class="sp-nav-link switch w-100 mt-1" title="Switch Account">
+                    <span class="sp-nav-icon"><i class="fa fa-right-left"></i></span>
+                    <span class="sp-nav-text">Switch Account</span>
+                </a>
             </div>
 
         </aside>
     }
 
-    <!-- ── MAIN CONTENT ────────────────────── -->
-    <main class="sp-main @(User.Identity!.IsAuthenticated ? "" : "sp-main-full")">
+    <main class="sp-main @(User.Identity!.IsAuthenticated ? "" : "sp-main-full")" id="spMain">
         @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Payments")
         {
-            <div class="payment-bg">
-                @RenderBody()
-            </div>
+            <div class="payment-bg">@RenderBody()</div>
         }
         else
         {
-            <div class="sp-content">
-                @RenderBody()
-            </div>
+            <div class="sp-content">@RenderBody()</div>
         }
     </main>
 
 </div>
 
-<!-- ══════════════════════════════════════════
-     FOOTER
-═══════════════════════════════════════════ -->
 <footer class="sp-footer">
     &copy; 2025 SchoolPortal &nbsp;·&nbsp;
     <a asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -327,9 +305,26 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Mobile sidebar toggle
+    const sidebar     = document.getElementById('sidebar');
+    const shell       = document.getElementById('spShell');
+    const collapseBtn = document.getElementById('sidebarCollapseBtn');
+
+    // Restore saved collapsed state
+    if (localStorage.getItem('sidebarCollapsed') === 'true') {
+        sidebar?.classList.add('collapsed');
+        shell?.classList.add('sidebar-collapsed');
+    }
+
+    // Desktop collapse toggle
+    collapseBtn?.addEventListener('click', () => {
+        const isNowCollapsed = sidebar?.classList.toggle('collapsed');
+        shell?.classList.toggle('sidebar-collapsed', isNowCollapsed);
+        localStorage.setItem('sidebarCollapsed', isNowCollapsed);
+    });
+
+    // Mobile open/close
     document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.toggle('open');
+        sidebar?.classList.toggle('open');
     });
 </script>
 

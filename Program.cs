@@ -42,6 +42,7 @@ if (!string.IsNullOrWhiteSpace(googleClientId) && !string.IsNullOrWhiteSpace(goo
 builder.Services.AddScoped<StudentService>();
 builder.Services.AddScoped<StaffService>();
 builder.Services.AddScoped<BursarService>();
+builder.Services.AddScoped<IBulkOperationService, BulkOperationService>();
 
 // ===================== MVC =====================
 builder.Services.AddControllersWithViews();

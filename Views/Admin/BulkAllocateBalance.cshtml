@@ -1,0 +1,79 @@
+@using SchoolPortal.Models.ViewModels
+@model BulkBalanceAllocationViewModel
+
+@{
+    ViewData["Title"] = "Bulk Allocate Balance";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Bulk Balance Allocation to Class</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="SelectedClass" class="form-label">Select Class <span class="text-danger">*</span></label>
+                            <select id="SelectedClass" name="SelectedClass" class="form-select" asp-items="@(new SelectList(Model.AvailableClasses, Model.SelectedClass))">
+                                <option value="">-- Please Select a Class --</option>
+                            </select>
+                            <span asp-validation-for="SelectedClass" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Class Balance Configuration</label>
+                            <table class="table table-sm table-bordered">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Class</th>
+                                        <th>Default Balance</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var kvp in Model.ClassBalances)
+                                    {
+                                        <tr>
+                                            <td>@kvp.Key</td>
+                                            <td>
+                                                <strong>₦@kvp.Value.ToString("N0")</strong>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Term" class="form-label">Term (Optional)</label>
+                            <input type="text" id="Term" name="Term" class="form-control" placeholder="e.g., Term 1, Term 2" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="Notes" class="form-label">Notes (Optional)</label>
+                            <textarea id="Notes" name="Notes" class="form-control" rows="3" placeholder="Enter any additional notes about this allocation..."></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="alert alert-info" role="alert">
+                                <strong>⚠️ Please Note:</strong> This operation will allocate the default balance amount to ALL students in the selected class. This action cannot be undone.
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle"></i> Allocate Balance
+                            </button>
+                            <a href="@Url.Action("Index", "Admin")" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

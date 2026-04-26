@@ -1,0 +1,56 @@
+@{
+    ViewData["Title"] = "Check Duplicate Payment";
+    var students = (List<SchoolPortal.Models.Student>?)ViewBag.Students ?? new List<SchoolPortal.Models.Student>();
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Check for Duplicate Payment</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="studentId" class="form-label">Student Name <span class="text-danger">*</span></label>
+                            <select id="studentId" name="studentId" class="form-select" required>
+                                <option value="">-- Select Student --</option>
+                                @foreach (var student in students.OrderBy(s => s.FullName))
+                                {
+                                    <option value="@student.Id">@student.FullName (@student.Class)</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="purpose" class="form-label">Payment Purpose <span class="text-danger">*</span></label>
+                            <select id="purpose" name="purpose" class="form-select" required>
+                                <option value="">-- Select Purpose --</option>
+                                <option value="1">School Fees</option>
+                                <option value="2">Donations</option>
+                                <option value="3">PTA Levy</option>
+                                <option value="4">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="term" class="form-label">Term (Optional)</label>
+                            <input type="text" id="term" name="term" class="form-control" placeholder="e.g., Term 1, Term 2" />
+                        </div>
+
+                        <div class="mb-3">
+                            <div class="alert alert-info" role="alert">
+                                <strong>ℹ️ Note:</strong> This tool checks if a payment with the same Student, Purpose, and Term already exists.
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> Check for Duplicate
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

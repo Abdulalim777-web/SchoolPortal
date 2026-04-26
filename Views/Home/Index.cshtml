@@ -3,56 +3,62 @@
 }
 
 <section class="hero-section">
-    <div class="container">
-        <div class="row align-items-center">
+    
+        <div class="category-card">
+            <div class="row align-items-center">
 
-            <!-- LEFT CONTENT -->
-            <div class="col-md-6">
-                <h1 class="hero-title">
-                    Discover new things <br />
-                    to enrich your skills <br />
-                    anytime
-                </h1>
-
-                @if (User.Identity != null && User.Identity.IsAuthenticated)
-                {
-                    <p class="hero-text">
-                        Welcome back to SchoolPortal! Access your courses and continue your learning journey.
-                    </p>
-                }
-                else
-                {
-                    <p class="hero-text">
-                        Join SchoolPortal today and unlock a world of knowledge at your fingertips.
-                    </p>
+                <!-- LEFT CONTENT -->
+                <div class="col-md-6">
+                    <div class="category-card">
+                        <h1 class="hero-title">
+                            Discover new things <br />
+                            to enrich your skills <br />
+                            anytime
+                        </h1>
+                    </div>    
+                    <br>
+                    <div class="category-card">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <p class="hero-text">
+                                Welcome back to SchoolPortal! Access your courses and continue your learning journey.
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="hero-text">
+                                Join SchoolPortal today and unlock a world of knowledge at your fingertips.
+                            </p>
                 
-                    <p class="hero-text">
-                        SchoolPortal helps students, teachers, and administrators
-                        manage education seamlessly with secure access and analytics.
-                    </p>
+                            <p class="hero-text">
+                                SchoolPortal helps students, teachers, and administrators
+                                manage education seamlessly with secure access and analytics.
+                            </p>
 
-                    <div class="hero-actions">
-                        <a href="/Account/Register" class="btn btn-primary btn-lg rounded-pill">
-                            Enroll Now
-                        </a>
-                        <a href="/Account/Login" class="btn btn-outline-secondary btn-lg rounded-pill ms-3">
-                            Log In
-                        </a>
+                            <div class="hero-actions">
+                                <a href="/Account/Register" class="btn btn-primary btn-lg rounded-pill">
+                                    Enroll Now
+                                </a>
+                                <a href="/Account/Login" class="btn btn-outline-secondary btn-lg rounded-pill ms-3">
+                                    Log In
+                                </a>
+                            </div>
+                        }
                     </div>
-                }
-            </div>
+                </div>
 
-            <!-- RIGHT IMAGE -->
-            <div class="col-md-6 text-center">
-                <div class="hero-image-wrapper">
-                    <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b"
-                         alt="Student"
-                         class="hero-image" />
+                <!-- RIGHT IMAGE -->
+                <div class="col-md-6 text-center">
+                    <div class="hero-image-wrapper">
+                        <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b"
+                            alt="Student"
+                            class="hero-image" />
+                    </div>
                 </div>
             </div>
 
         </div>
-    </div>
+    
 </section>
 
 <!-- CATEGORIES -->

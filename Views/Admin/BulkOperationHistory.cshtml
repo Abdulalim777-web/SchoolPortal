@@ -1,0 +1,144 @@
+@using SchoolPortal.Models.ViewModels
+@model BulkOperationHistoryViewModel
+
+@{
+    ViewData["Title"] = "Bulk Operation History";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Bulk Operation Audit Log</h4>
+                    <a href="@Url.Action("BulkAllocateBalance", "Admin")" class="btn btn-sm btn-light">
+                        <i class="bi bi-plus-circle"></i> New Allocation
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if (Model.Operations.Count == 0)
+                    {
+                        <div class="alert alert-info">
+                            No bulk operations have been performed yet.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Operation Type</th>
+                                        <th>Class/Details</th>
+                                        <th>Amount (per record)</th>
+                                        <th>Records Affected</th>
+                                        <th>Total Allocated</th>
+                                        <th>Performed By</th>
+                                        <th>Date/Time</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var operation in Model.Operations)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-info">@operation.OperationType</span>
+                                            </td>
+                                            <td>
+                                                @if (!string.IsNullOrEmpty(operation.AffectedClass))
+                                                {
+                                                    <strong>@operation.AffectedClass</strong>
+                                                }
+                                                @if (!string.IsNullOrEmpty(operation.AffectedTerm))
+                                                {
+                                                    <span class="badge bg-secondary">@operation.AffectedTerm</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                ₦@operation.Amount.ToString("N0")
+                                            </td>
+                                            <td>
+                                                <strong>@operation.RecordsAffected</strong>
+                                            </td>
+                                            <td>
+                                                <strong>₦@(operation.Amount * operation.RecordsAffected).ToString("N0")</strong>
+                                            </td>
+                                            <td>
+                                                @operation.PerformedByUser?.UserName ?? "Unknown"
+                                            </td>
+                                            <td>
+                                                @operation.PerformedAt.ToString("dd MMM yyyy HH:mm")
+                                            </td>
+                                            <td>
+                                                @if (operation.Status == "Completed")
+                                                {
+                                                    <span class="badge bg-success">✓ Completed</span>
+                                                }
+                                                else if (operation.Status == "Failed")
+                                                {
+                                                    <span class="badge bg-danger">✗ Failed</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning">⏳ @operation.Status</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("BulkOperationDetails", "Admin", new { id = operation.Id })" class="btn btn-sm btn-info">
+                                                    <i class="bi bi-eye"></i> Details
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-4">
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("BulkOperationHistory", "Admin", new { pageNumber = 1 })">First</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("BulkOperationHistory", "Admin", new { pageNumber = Model.CurrentPage - 1 })">Previous</a>
+                                    </li>
+                                }
+
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    @if (i == Model.CurrentPage)
+                                    {
+                                        <li class="page-item active">
+                                            <span class="page-link">@i</span>
+                                        </li>
+                                    }
+                                    else if (i >= Model.CurrentPage - 2 && i <= Model.CurrentPage + 2)
+                                    {
+                                        <li class="page-item">
+                                            <a class="page-link" href="@Url.Action("BulkOperationHistory", "Admin", new { pageNumber = i })">@i</a>
+                                        </li>
+                                    }
+                                }
+
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("BulkOperationHistory", "Admin", new { pageNumber = Model.CurrentPage + 1 })">Next</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="@Url.Action("BulkOperationHistory", "Admin", new { pageNumber = Model.TotalPages })">Last</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
