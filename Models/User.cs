@@ -8,6 +8,7 @@ namespace SchoolPortal.Models
         public string? FullName { get; set; }
         public bool IsSuspended { get; set; }
         
+        
         // Store the role selected during registration
         // public string? Role { get; set; }
     }

@@ -1,0 +1,160 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="mb-1">Dashboard</h1>
+            <p class="text-muted">Manage students, payments, bulk operations, and audit logs</p>
+        </div>
+    </div>
+
+    <!-- Statistics Row -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center border-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Students</h5>
+                    <h2 class="text-primary">@ViewBag.TotalStudents</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-success">
+                <div class="card-body">
+                    <h5 class="card-title">Total Staff</h5>
+                    <h2 class="text-success">@ViewBag.TotalStaff</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-info">
+                <div class="card-body">
+                    <h5 class="card-title">Total Payments</h5>
+                    <h2 class="text-info">@ViewBag.TotalPayments</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center border-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Pending Approvals</h5>
+                    <h2 class="text-warning">@ViewBag.PendingApprovals</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions Row -->
+    <div class="row">
+        <!-- Bulk Operations Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-lightning-charge"></i> Bulk Operations
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-muted mb-3">
+                        Perform bulk actions such as allocating student balances by class and term.
+                    </p>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="@Url.Action("BulkAllocateBalance", "Admin")" class="btn btn-outline-primary">
+                            <i class="bi bi-plus-circle"></i> Allocate Balance to Class
+                        </a>
+                        <a href="@Url.Action("BulkOperationHistory", "Admin")" class="btn btn-outline-primary">
+                            <i class="bi bi-clock-history"></i> View Operation History
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Validation Card -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-check-circle"></i> Payment Validation
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-muted mb-3">
+                        Check for duplicate payments by student, payment purpose, and term. Prevent duplicate entries.
+                    </p>
+                    <div class="d-flex flex-column gap-2">
+                        <a href="@Url.Action("CheckDuplicatePayment", "Admin")" class="btn btn-outline-info">
+                            <i class="bi bi-search"></i> Check Duplicate Payment
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Management Links Row -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <h5 class="mb-3">Other Management Tools</h5>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="@Url.Action("Index", "Students")" class="btn btn-outline-secondary w-100 py-3">
+                <i class="bi bi-people"></i><br />
+                Manage Students
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="@Url.Action("Index", "Payments")" class="btn btn-outline-secondary w-100 py-3">
+                <i class="bi bi-credit-card"></i><br />
+                View Payments
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="@Url.Action("Index", "Staff")" class="btn btn-outline-secondary w-100 py-3">
+                <i class="bi bi-person-badge"></i><br />
+                Manage Staff
+            </a>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <a href="@Url.Action("Index", "AdminUser")" class="btn btn-outline-secondary w-100 py-3">
+                <i class="bi bi-shield-lock"></i><br />
+                User Management
+            </a>
+        </div>
+    </div>
+
+    <!-- Info Alert -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <strong><i class="bi bi-info-circle"></i> Welcome to Admin Dashboard!</strong>
+                <p class="mb-0">
+                    Use the quick action cards above to perform bulk operations, manage students, and validate payments.
+                    For detailed audit logs and operation history, visit the Bulk Operations section.
+                </p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Auto-dismiss alerts after 5 seconds (optional)
+        window.addEventListener('load', function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    // Don't auto-dismiss, let user close manually
+                }, 5000);
+            });
+        });
+    </script>
+}

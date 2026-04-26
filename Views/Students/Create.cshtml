@@ -41,23 +41,24 @@
                             </span>
                             <select asp-for="Class" class="form-select">
                                 <option value="">— Select class —</option>
-                                <option value="JSS 1">JSS 1</option>
-                                <option value="JSS 2">JSS 2</option>
-                                <option value="JSS 3">JSS 3</option>
-                                <option value="SS 1">SS 1</option>
-                                <option value="SS 2">SS 2</option>
-                                <option value="SS 3">SS 3</option>
+                                <option value="Creche">Creche</option>
+                                <option value="playgroup">Playgroup</option>
+                                <option value="Kindergarten">Kindergarten</option>
+                                <option value="Nursery">Nursery</option>
+                                <option value="Basic 1">Basic 1</option>
+                                <option value="Basic 2">Basic 2</option>
+                                <option value="Basic 3">Basic 3</option>
+                                <option value="Basic 4">Basic 4</option>
+                                <option value="Basic 5">Basic 5</option>
+                                <option value="Basic 6">Basic 6</option>
                             </select>
                         </div>
                         <span asp-validation-for="Class" class="text-danger small"></span>
                     </div>
 
-                   
-                    <input type="hidden" asp-for="Balance" value="0" />
-
                     <div class="alert alert-info py-2 small mb-4">
                         <i class="fa fa-info-circle me-1"></i>
-                        Student balance starts at <strong>₦0</strong> and is managed by the bursar.
+                        Student balance will be automatically set based on their class and is managed by the bursar.
                     </div>
 
                     <div class="d-flex gap-2">

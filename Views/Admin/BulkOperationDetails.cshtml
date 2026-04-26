@@ -1,0 +1,123 @@
+@model BulkOperationAudit
+
+@{
+    ViewData["Title"] = "Bulk Operation Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Operation Details</h4>
+                    <a href="@Url.Action("BulkOperationHistory", "Admin")" class="btn btn-sm btn-light">
+                        <i class="bi bi-arrow-left"></i> Back to History
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Operation ID:</strong></label>
+                                <p class="form-text">@Model.Id</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Operation Type:</strong></label>
+                                <p class="form-text">
+                                    <span class="badge bg-info">@Model.OperationType</span>
+                                </p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Description:</strong></label>
+                                <p class="form-text">@Model.OperationDescription</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Status:</strong></label>
+                                <p class="form-text">
+                                    @if (Model.Status == "Completed")
+                                    {
+                                        <span class="badge bg-success">✓ Completed</span>
+                                    }
+                                    else if (Model.Status == "Failed")
+                                    {
+                                        <span class="badge bg-danger">✗ Failed</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning">⏳ @Model.Status</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Affected Class:</strong></label>
+                                <p class="form-text">@(Model.AffectedClass ?? "N/A")</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Affected Term:</strong></label>
+                                <p class="form-text">@(Model.AffectedTerm ?? "N/A")</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Records Affected:</strong></label>
+                                <p class="form-text"><strong>@Model.RecordsAffected</strong> student(s)</p>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Amount per Record:</strong></label>
+                                <p class="form-text"><strong>₦@Model.Amount.ToString("N0")</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Total Allocated:</strong></label>
+                                <p class="form-text">
+                                    <h5>₦@(Model.Amount * Model.RecordsAffected).ToString("N0")</h5>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label"><strong>Performed By:</strong></label>
+                                <p class="form-text">@(Model.PerformedByUser?.UserName ?? "Unknown User")</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label"><strong>Performed At:</strong></label>
+                        <p class="form-text">@Model.PerformedAt.ToString("dd MMMM yyyy HH:mm:ss")</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Notes))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label"><strong>Notes:</strong></label>
+                            <div class="alert alert-light border">
+                                @Model.Notes
+                            </div>
+                        </div>
+                    }
+
+                    <div class="d-flex gap-2 mt-4">
+                        <a href="@Url.Action("BulkOperationHistory", "Admin")" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to History
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

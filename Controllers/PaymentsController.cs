@@ -237,6 +237,12 @@ namespace SchoolPortal.Controllers
             var payment = await _context.Payments.FindAsync(id);
             if (payment != null)
             {
+                // Delete related TransactionLogs first (foreign key constraint)
+                var transactionLogs = await _context.TransactionLogs
+                    .Where(tl => tl.PaymentId == id)
+                    .ToListAsync();
+                
+                _context.TransactionLogs.RemoveRange(transactionLogs);
                 _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync();
             }

@@ -20,6 +20,7 @@ namespace SchoolPortal.Data
         public DbSet<Salary> Salaries { get; set; }
         public DbSet<LoginAudit> LoginAudits { get; set; }
         public DbSet<NavigationAudit> NavigationAudits { get; set; }
+        public DbSet<BulkOperationAudit> BulkOperationAudits { get; set; }
 
         // ── NEW ─────────────────────────────────────────
         public DbSet<TransactionLog> TransactionLogs { get; set; }
@@ -44,9 +45,21 @@ namespace SchoolPortal.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<TransactionLog>()
+                .HasOne(t => t.Payment)
+                .WithMany()
+                .HasForeignKey(t => t.PaymentId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<TransactionLog>()
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(t => t.PerformedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<BulkOperationAudit>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(b => b.PerformedByUserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
